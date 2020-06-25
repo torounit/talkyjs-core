@@ -1,27 +1,30 @@
-# TSDX Bootstrap
 
-This project was bootstrapped with [TSDX](https://github.com/jaredpalmer/tsdx).
+# @talkyjs/core
 
-## Local Development
+## Feature
 
-Below is a list of commands you will probably find useful.
+### Stage Handling
 
-### `npm start` or `yarn start`
+We can choose these stage to run the skill
 
-Runs the project in development/watch mode. Your project will be rebuilt upon changes. TSDX has a special logger for you convenience. Error messages are pretty printed and formatted for compatibility VS Code's Problems tab.
+|stage|feature|
+|:--|:--|
+|development| Add devleopment helper handler (IntentReflector) |
+|production | Ignore development utilties |
 
-<img src="https://user-images.githubusercontent.com/4060187/52168303-574d3a00-26f6-11e9-9f3b-71dbec9ebfcb.gif" width="600" />
+### Preset Handlers
 
-Your library will be rebuilt if you make edits.
+|RequstType|IntentName|action|
+|:--|:--|:--|
+| SessionEndedRequest | - | Record the ended reason |
+| IntentRequest | AMAZON.RepeatIntent | Repeat the last response (Only in session) |
+| AlexaSkillEvent.SkillDisabled | - | Delete the user data from the persistent attributes |
+| ErrorHandler | - | Log the Error and return the error resposne (Supported lang: Japanese / English) |
 
-### `npm run build` or `yarn build`
+## Logging
+Automatically log these props.
 
-Bundles the package to the `dist` folder.
-The package is optimized and bundled with Rollup into multiple formats (CommonJS, UMD, and ES Module).
+- Request
+- Response
 
-<img src="https://user-images.githubusercontent.com/4060187/52168322-a98e5b00-26f6-11e9-8cf6-222d716b75ef.gif" width="600" />
-
-### `npm test` or `yarn test`
-
-Runs the test watcher (Jest) in an interactive mode.
-By default, runs tests related to files changed since the last commit.
+WIP

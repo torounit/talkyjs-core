@@ -40,6 +40,7 @@
     "typescript": "^3.9.5"
   },
   "dependencies": {
+    "@ask-utils/core": "^3.9.0",
     "@ask-utils/router": "^3.10.0",
     "ask-sdk-core": "^2.8.0",
     "ask-sdk-dynamodb-persistence-adapter": "^2.8.0",

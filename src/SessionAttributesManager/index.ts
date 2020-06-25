@@ -1,1 +1,1 @@
-export * from './SessionAttributesManager.service'
+export * from './SessionAttributesManager.service';

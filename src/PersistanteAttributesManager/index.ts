@@ -1,2 +1,2 @@
-export * from './PersistanteAttributesManager.service'
-export * from './PersistanteAttributesManager.interceptor'
+export * from './PersistanteAttributesManager.service';
+export * from './PersistanteAttributesManager.interceptor';

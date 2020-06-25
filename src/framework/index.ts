@@ -1,2 +1,2 @@
-export * from './skillFactory.class'
-export * from './skillFactory.interface'
+export * from './skillFactory.class';
+export * from './skillFactory.interface';

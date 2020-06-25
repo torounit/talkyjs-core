@@ -31,7 +31,7 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "core",
+  "name": "@talkyjs/core",
   "author": "Hidetaka Okamoto",
   "module": "dist/core.esm.js",
   "devDependencies": {

@@ -1,1 +1,2 @@
-export * from './IntentReflector.handler'
+export * from './IntentReflector/index'
+export * from './RepeatIntent'

@@ -12,7 +12,7 @@ import {
     SkillHandler,
     TalkyJSSkillStage
 } from './skillFactory.interface'
-import { IntentRequest } from 'ask-sdk-model'
+import { IntentRelectorHandler } from 'handlers'
 
 // let cachedSkill: CustomSkillBuilder
 
@@ -26,10 +26,31 @@ import { IntentRequest } from 'ask-sdk-model'
  */
 
 export class SkillFactory {
+    /**
+     * Skill builder
+     */
     private readonly skillBuilders: CustomSkillBuilder = SkillBuilders.custom()
+
+    /**
+     * Factory instance
+     */
     private static _instance: SkillFactory
+
+    /**
+     * Skill Router factory
+     */
     private readonly router = new RequestHandlerFactory()
+
+    private _hasDevHandlerAdded: boolean = false
+
+    /**
+     * Log level
+     */
     public logLevel: TLogLevelName
+
+    /**
+     * Skill working stage
+     */
     protected readonly stage: TalkyJSSkillStage;
 
     public constructor (config: TalkyJSSkillConfig) {
@@ -57,20 +78,9 @@ export class SkillFactory {
      */
     private _addDevelopmentHelpers (): this {
         if (this.stage === 'production') return this
-        this.skillBuilders.addRequestHandlers({
-            canHandle (input) {
-                return input.requestEnvelope.request.type === 'IntentRequest'
-            },
-            handle (input) {
-                const { logger } = LoggerService.getInstance()
-                logger.info('IntentReflector was called')
-                const intentName = getRequest<IntentRequest>(input.requestEnvelope).intent.name
-                const speechText = `You just triggered ${intentName}`
-                return input.responseBuilder
-                    .speak(speechText)
-                    .getResponse()
-            }
-        })
+        if (this._hasDevHandlerAdded) return this
+        this._hasDevHandlerAdded = true
+        this.skillBuilders.addRequestHandlers(IntentRelectorHandler)
         return this
     }
 

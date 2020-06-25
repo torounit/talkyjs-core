@@ -137,6 +137,51 @@ describe('SkillFactoryr', () => {
                     version: expect.any(String)
                 })
             })
+            it('should record the last reponse', async () => {
+                skill.addRequestHandlers({
+                    canHandle () {
+                        return true
+                    },
+                    handle (input) {
+                        return input.responseBuilder.speak('Hello').reprompt('bye').getResponse()
+                    }
+                })
+                const result = await skill.createLambdaHandler()(requestEnvelope)
+                expect(result).toMatchObject({
+                    response: {
+                        outputSpeech: {
+                            ssml: '<speak>Hello</speak>',
+                            type: 'SSML'
+                        },
+                        "reprompt": {
+                          "outputSpeech": {
+                            "ssml": "<speak>bye</speak>",
+                            "type": "SSML",
+                          },
+                        },
+                        "shouldEndSession": false,
+                    },
+                    sessionAttributes: {
+                        '__talkyjs': {
+                            recordedResponse: {
+                                outputSpeech: {
+                                    ssml: '<speak>Hello</speak>',
+                                    type: 'SSML'
+                                },
+                                "reprompt": {
+                                  "outputSpeech": {
+                                    "ssml": "<speak>bye</speak>",
+                                    "type": "SSML",
+                                  },
+                                },
+                                "shouldEndSession": false,
+                            }
+                        }
+                    },
+                    userAgent: expect.any(String),
+                    version: expect.any(String)
+                })
+            })
 
         })
     })

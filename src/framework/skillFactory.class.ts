@@ -24,8 +24,8 @@ import {
   withRepeatIntentHandler,
   SessionEndedRequestHandler,
   SkillDisabledEventHandler,
+  withErrorHandler,
 } from '../handlers/index';
-import { withErrorHandler } from 'handlers/ErrorHandler';
 
 // let cachedSkill: CustomSkillBuilder
 

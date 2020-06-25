@@ -17,6 +17,16 @@ export type TalkyJSSkillStage = 'development' | 'test' | 'production';
 export type TalkyJSDBType = 'none' | 's3' | 'dynamodb';
 
 /**
+ * ErrorHandler config
+ */
+export type TalkyJSErrorHandlerConfig = {
+  usePreset: boolean;
+  sentry?: {
+    dsn: string;
+  }
+}
+
+/**
  * Database (PersistanceAdapter) configs
  */
 export interface TalkyJSDBonfig {
@@ -49,6 +59,7 @@ export interface TalkyJSSkillConfig {
   database?: TalkyJSDBonfig;
   skillId?: string;
   apiClient?: TalkyJSAPIClientConfig;
+  errorHandler?: TalkyJSErrorHandlerConfig;
 }
 
 /**

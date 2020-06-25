@@ -3,6 +3,8 @@ import {
   SkillBuilders,
   DefaultApiClient,
   RequestHandler,
+  RequestInterceptor,
+  ErrorHandler,
 } from 'ask-sdk-core';
 import { DynamoDbPersistenceAdapter } from 'ask-sdk-dynamodb-persistence-adapter';
 import { S3PersistenceAdapter } from 'ask-sdk-s3-persistence-adapter';
@@ -15,6 +17,7 @@ import {
   TalkyJSSkillConfig,
   SkillHandler,
   TalkyJSSkillStage,
+  TalkyJSErrorHandlerConfig,
 } from './skillFactory.interface';
 import {
   IntentRelectorHandler,
@@ -22,13 +25,9 @@ import {
   SessionEndedRequestHandler,
   SkillDisabledEventHandler,
 } from '../handlers/index';
+import { withErrorHandler } from 'handlers/ErrorHandler';
 
 // let cachedSkill: CustomSkillBuilder
-
-/**
- * Sentryでエラー記録できるハンドラー : math-game
- * 
- */
 
 export class SkillFactory {
   /**
@@ -55,6 +54,11 @@ export class SkillFactory {
   public logLevel: TLogLevelName;
 
   /**
+   * ErrorConfig
+   */
+  private _errorHandler: TalkyJSErrorHandlerConfig
+
+  /**
    * Skill working stage
    */
   protected readonly stage: TalkyJSSkillStage;
@@ -66,6 +70,9 @@ export class SkillFactory {
     if (skillId) this.skillBuilders.withSkillId(skillId);
     this._configureAPIClients(config.apiClient);
     this._configureDBClients(config.database);
+    this._errorHandler = config.errorHandler || {
+        usePreset: true
+    }
   }
 
   /**
@@ -89,6 +96,7 @@ export class SkillFactory {
         SessionEndedRequestHandler,
         SkillDisabledEventHandler,
     )
+    withErrorHandler(this.skillBuilders, this._errorHandler)
     return this;
   }
 
@@ -158,6 +166,24 @@ export class SkillFactory {
   public addRequestRouters(routers: Router[]): this {
     this.addRequestRouter(...routers);
     return this;
+  }
+
+  /**
+   * [Proxy] add ErrorHandlers
+   * @param handlers
+   */
+  public addErrorHandlers(...handlers: ErrorHandler[]): this {
+    this.skillBuilders.addErrorHandlers(...handlers)      
+    return this
+  }
+
+  /**
+   * [Proxy] add requestInterceptors
+   * @param interceptors 
+   */
+  public addRequestInterceptors(...interceptors: RequestInterceptor[]): this {
+    this.skillBuilders.addRequestInterceptors(...interceptors)      
+    return this
   }
 
   /**

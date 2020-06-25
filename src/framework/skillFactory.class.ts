@@ -19,6 +19,7 @@ import {
 import {
   IntentRelectorHandler,
   withRepeatIntentHandler,
+  SessionEndedRequestHandler,
 } from '../handlers/index';
 
 // let cachedSkill: CustomSkillBuilder
@@ -26,7 +27,6 @@ import {
 /**
  * Sentryでエラー記録できるハンドラー : math-game
         DeleteDisabledUserHandler,
-        SessionEndedRequestHandler
  * 
  */
 
@@ -85,6 +85,9 @@ export class SkillFactory {
     if (this._hasGeneralHandlerAdded) return this;
     this._hasGeneralHandlerAdded = true;
     withRepeatIntentHandler(this.skillBuilders);
+    this.skillBuilders.addRequestHandlers(
+        SessionEndedRequestHandler
+    )
     return this;
   }
 

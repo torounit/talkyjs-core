@@ -12,7 +12,7 @@ import {
     SkillHandler,
     TalkyJSSkillStage
 } from './skillFactory.interface'
-import { IntentRelectorHandler } from '../handlers'
+import { IntentRelectorHandler, withRepeatIntentHandler } from '../handlers/index'
 
 // let cachedSkill: CustomSkillBuilder
 
@@ -42,6 +42,7 @@ export class SkillFactory {
     private readonly router = new RequestHandlerFactory()
 
     private _hasDevHandlerAdded: boolean = false
+    private _hasGeneralHandlerAdded: boolean = false
 
     /**
      * Log level
@@ -72,6 +73,16 @@ export class SkillFactory {
         }
         return this._instance
     }
+    /**
+     * Add helper handlers
+     */
+    private _addGeneralHelpers (): this {
+        if (this._hasGeneralHandlerAdded) return this
+        this._hasGeneralHandlerAdded = true
+        withRepeatIntentHandler(this.skillBuilders)
+        return this
+    }
+
 
     /**
      * Add development helper handlers
@@ -154,6 +165,7 @@ export class SkillFactory {
      * Create SKill
      */
     public getSkill (): CustomSkillBuilder {
+        this._addGeneralHelpers()
         /**
          * Add dev helpers
          */

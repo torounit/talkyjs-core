@@ -1,5 +1,5 @@
 import { RequestHandler, getRequest } from 'ask-sdk-core';
-import { LoggerService } from 'Logger';
+import { LoggerService } from '../Logger';
 import {IntentRequest } from 'ask-sdk-model'
 
 export const IntentRelectorHandler: RequestHandler = {

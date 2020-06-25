@@ -1,5 +1,5 @@
 
-import { CustomSkillBuilder, SkillBuilders, DefaultApiClient, RequestHandler, getRequest } from 'ask-sdk-core'
+import { CustomSkillBuilder, SkillBuilders, DefaultApiClient, RequestHandler } from 'ask-sdk-core'
 import { DynamoDbPersistenceAdapter } from 'ask-sdk-dynamodb-persistence-adapter'
 import { S3PersistenceAdapter } from 'ask-sdk-s3-persistence-adapter'
 import { TLogLevelName } from 'tslog'
@@ -12,7 +12,7 @@ import {
     SkillHandler,
     TalkyJSSkillStage
 } from './skillFactory.interface'
-import { IntentRelectorHandler } from 'handlers'
+import { IntentRelectorHandler } from '../handlers'
 
 // let cachedSkill: CustomSkillBuilder
 

@@ -7,7 +7,7 @@ export const IntentRelectorHandler: RequestHandler = {
     return input.requestEnvelope.request.type === 'IntentRequest';
   },
   handle(input) {
-    const { logger } = LoggerService.getInstance();
+    const { logger } = LoggerService.getInstance(input.requestEnvelope);
     logger.info('IntentReflector was called');
     const intentName = getRequest<IntentRequest>(input.requestEnvelope).intent
       .name;

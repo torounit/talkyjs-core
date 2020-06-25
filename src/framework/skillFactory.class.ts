@@ -25,8 +25,6 @@ import {
 
 /**
  * Sentryでエラー記録できるハンドラー : math-game
-        RecordTheResponseInterceptor,
-        RepeatIntent,
         DeleteDisabledUserHandler,
         SessionEndedRequestHandler
  * 

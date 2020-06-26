@@ -21,3 +21,4 @@ ogp_*.png
 *.config.js
 renovate.json
 src/
+coverage/

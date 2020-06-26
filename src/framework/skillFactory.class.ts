@@ -5,6 +5,7 @@ import {
   RequestHandler,
   RequestInterceptor,
   ErrorHandler,
+  ResponseInterceptor,
 } from 'ask-sdk-core';
 import { DynamoDbPersistenceAdapter } from 'ask-sdk-dynamodb-persistence-adapter';
 import { S3PersistenceAdapter } from 'ask-sdk-s3-persistence-adapter';
@@ -16,6 +17,7 @@ import {
   SkillHandler,
   TalkyJSSkillStage,
   TalkyJSErrorHandlerConfig,
+  TalkyJSDBType,
 } from './skillFactory.interface';
 import {
   IntentRelectorHandler,
@@ -24,6 +26,8 @@ import {
   SkillDisabledEventHandler,
   withErrorHandler,
 } from '../handlers/index';
+import { SavePersistentAttributesInterceptor } from '../PersistanteAttributesManager';
+import { SkillInvocationRecorder } from '../CRM';
 
 // let cachedSkill: CustomSkillBuilder
 
@@ -45,6 +49,11 @@ export class SkillFactory {
 
   private _hasDevHandlerAdded: boolean = false;
   private _hasGeneralHandlerAdded: boolean = false;
+
+  /**
+   * Skill PersistenceAttributesManager Type
+   */
+  private dbType: TalkyJSDBType = 'none';
 
   /**
    * Log level
@@ -92,13 +101,27 @@ export class SkillFactory {
   private _addGeneralHelpers(): this {
     if (this._hasGeneralHandlerAdded) return this;
     this._hasGeneralHandlerAdded = true;
-    withRepeatIntentHandler(this.skillBuilders);
-    this.skillBuilders.addRequestHandlers(
+    this.addRequestHandlers(
       SessionEndedRequestHandler,
       SkillDisabledEventHandler
-    );
+    )
+    withRepeatIntentHandler(this.skillBuilders);
     withErrorHandler(this.skillBuilders, this._errorHandler);
+    this._addUsingDBHelpers()
     return this;
+  }
+
+  /**
+   * Add helpers using persistenceAttributesManager
+   */
+  private _addUsingDBHelpers(): this {
+    if (this.dbType === 'none') return this
+    this.addResponseInterceptors(
+      SavePersistentAttributesInterceptor,
+    ).addRequestInterceptors(
+      SkillInvocationRecorder,
+    )
+    return this
   }
 
   /**
@@ -136,6 +159,7 @@ export class SkillFactory {
     if (!config) return this;
     const { database } = config;
     if (!database || database.type === 'none') return this;
+    this.dbType = database.type
     if (database.type === 'dynamodb') {
       this.skillBuilders.withPersistenceAdapter(
         new DynamoDbPersistenceAdapter({
@@ -188,6 +212,15 @@ export class SkillFactory {
    */
   public addRequestInterceptors(...interceptors: RequestInterceptor[]): this {
     this.skillBuilders.addRequestInterceptors(...interceptors);
+    return this;
+  }
+
+  /**
+   * [Proxy] add ResponseInterceptors
+   * @param interceptors
+   */
+  public addResponseInterceptors(...interceptors: ResponseInterceptor[]): this {
+    this.skillBuilders.addResponseInterceptors(...interceptors);
     return this;
   }
 

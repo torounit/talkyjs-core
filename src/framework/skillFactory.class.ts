@@ -12,8 +12,6 @@ import { TLogLevelName } from 'tslog';
 import { Router, RequestHandlerFactory } from '@ask-utils/router';
 import { LoggerService } from '../Logger';
 import {
-  TalkyJSDBonfig,
-  TalkyJSAPIClientConfig,
   TalkyJSSkillConfig,
   SkillHandler,
   TalkyJSSkillStage,
@@ -63,14 +61,14 @@ export class SkillFactory {
    */
   protected readonly stage: TalkyJSSkillStage;
 
-  public constructor(config: TalkyJSSkillConfig) {
-    this.stage = config.stage || 'development';
-    this.logLevel = config.logLevel || 'info';
-    const skillId = config.skillId || null;
+  public constructor(config?: TalkyJSSkillConfig) {
+    this.stage = config && config.stage ? config.stage : 'development';
+    this.logLevel = config && config.logLevel ? config.logLevel : 'info';
+    const skillId = config && config.skillId ? config.skillId : null;
     if (skillId) this.skillBuilders.withSkillId(skillId);
-    this._configureAPIClients(config.apiClient);
-    this._configureDBClients(config.database);
-    this._errorHandler = config.errorHandler || {
+    this._configureAPIClients(config);
+    this._configureDBClients(config);
+    this._errorHandler = config && config.errorHandler ? config.errorHandler : {
         usePreset: true
     }
   }
@@ -79,7 +77,7 @@ export class SkillFactory {
    * Get factory instance
    * @param config
    */
-  public static launch(config: TalkyJSSkillConfig) {
+  public static launch(config?: TalkyJSSkillConfig) {
     if (!this._instance) {
       this._instance = new SkillFactory(config);
     }
@@ -115,7 +113,9 @@ export class SkillFactory {
    * Configure Skill API Client
    * @param apiClient
    */
-  private _configureAPIClients(apiClient?: TalkyJSAPIClientConfig): this {
+  private _configureAPIClients(config?: TalkyJSSkillConfig): this {
+    if (!config) return this;
+    const { apiClient } = config;
     if (!apiClient) return this;
     if (apiClient.useDefault) {
       this.skillBuilders.withApiClient(new DefaultApiClient());
@@ -129,7 +129,9 @@ export class SkillFactory {
    * Configure Skill PersistenceAdapter
    * @param database
    */
-  private _configureDBClients(database?: TalkyJSDBonfig): this {
+  private _configureDBClients(config?: TalkyJSSkillConfig): this {
+    if (!config) return this;
+    const { database } = config;
     if (!database || database.type === 'none') return this;
     if (database.type === 'dynamodb') {
       this.skillBuilders.withPersistenceAdapter(

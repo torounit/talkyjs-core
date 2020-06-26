@@ -104,10 +104,10 @@ export class SkillFactory {
     this.addRequestHandlers(
       SessionEndedRequestHandler,
       SkillDisabledEventHandler
-    )
+    );
     withRepeatIntentHandler(this.skillBuilders);
     withErrorHandler(this.skillBuilders, this._errorHandler);
-    this._addUsingDBHelpers()
+    this._addUsingDBHelpers();
     return this;
   }
 
@@ -115,13 +115,11 @@ export class SkillFactory {
    * Add helpers using persistenceAttributesManager
    */
   private _addUsingDBHelpers(): this {
-    if (this.dbType === 'none') return this
+    if (this.dbType === 'none') return this;
     this.addResponseInterceptors(
-      SavePersistentAttributesInterceptor,
-    ).addRequestInterceptors(
-      SkillInvocationRecorder,
-    )
-    return this
+      SavePersistentAttributesInterceptor
+    ).addRequestInterceptors(SkillInvocationRecorder);
+    return this;
   }
 
   /**
@@ -159,7 +157,7 @@ export class SkillFactory {
     if (!config) return this;
     const { database } = config;
     if (!database || database.type === 'none') return this;
-    this.dbType = database.type
+    this.dbType = database.type;
     if (database.type === 'dynamodb') {
       this.skillBuilders.withPersistenceAdapter(
         new DynamoDbPersistenceAdapter({

@@ -10,6 +10,7 @@ import {
   TalkyJSDBType,
   TalkyJSSkillStage,
 } from '../skillFactory.interface';
+import { PersistanteAttributesManager } from 'PersistanteAttributesManager';
 
 describe('SkillFactoryr', () => {
   let requestEnvelope: RequestEnvelope = new RequestEnvelopeFactory(
@@ -260,4 +261,27 @@ describe('SkillFactoryr', () => {
       });
     });
   });
+});
+
+SkillFactory.launch({
+  database: {
+    type: 's3',
+    tableName: 'example-bucket',
+  },
+}).addRequestHandlers({
+  canHandle(input) {
+    return input.requestEnvelope.request.type === 'LaunchRequest';
+  },
+  async handle(input) {
+    const persistenceAdapter = new PersistanteAttributesManager(
+      input.attributesManager
+    );
+    const { name } = await persistenceAdapter.getPersistentAttributes({
+      name: 'sir',
+    });
+    await persistenceAdapter.updatePersistentAttributes({
+      now: new Date().toISOString(),
+    });
+    return input.responseBuilder.speak(`Hello ${name}`).getResponse();
+  },
 });

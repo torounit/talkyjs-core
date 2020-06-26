@@ -27,7 +27,10 @@
     "test:watch": "tsdx test --watchAll",
     "test:dev": "tsdx test --watchAll --silent=false --verbose false",
     "lint": "tsdx lint",
-    "prepare": "tsdx build"
+    "prepare": "tsdx build",
+    "compodoc": "npx compodoc -p tsconfig.json -d docs",
+    "doc:export": "npm run compodoc && touch ./docs/.nojekyll",
+    "doc:serve": "npm run compodoc -- -s"
   },
   "peerDependencies": {},
   "husky": {

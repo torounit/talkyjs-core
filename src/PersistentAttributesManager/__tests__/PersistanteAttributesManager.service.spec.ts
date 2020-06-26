@@ -47,14 +47,14 @@ describe('PersistenteAttributesManager.service.ts', () => {
     type TestTypes = {
       name: string;
       count: number;
-    }
+    };
     class ExtendClass extends PersistentAttributesManager<TestTypes> {
       protected readonly defaultAttributes = {
         name: 'john',
-        count: 0
-      }
+        count: 0,
+      };
     }
-    let target: ExtendClass
+    let target: ExtendClass;
     beforeEach(() => {
       adapter = new MockPersistenceAdapter();
       handlerInput = new HandlerInputFactory(
@@ -62,68 +62,68 @@ describe('PersistenteAttributesManager.service.ts', () => {
       )
         .setPersistanceAdapter(adapter)
         .create();
-      target = new ExtendClass(handlerInput.attributesManager)
-    })
+      target = new ExtendClass(handlerInput.attributesManager);
+    });
     it('should get default value', async () => {
-      const attributes = await target.getPersistentAttributes()
+      const attributes = await target.getPersistentAttributes();
       expect(attributes).toEqual({
         name: 'john',
-        count: 0
-      })
-    })
+        count: 0,
+      });
+    });
     it('should get overwritten default value', async () => {
       const attributes = await target.getPersistentAttributes({
-        count: 2
-      })
+        count: 2,
+      });
       expect(attributes).toEqual({
         name: 'john',
-        count: 2
-      })
-    })
+        count: 2,
+      });
+    });
     it('should get overwritten default value', async () => {
       const attributes = await target.getPersistentAttributes({
-        count: 2
-      })
+        count: 2,
+      });
       expect(attributes).toEqual({
         name: 'john',
-        count: 2
-      })
-    })
+        count: 2,
+      });
+    });
     it('should not saved default atts when does not call save', async () => {
       handlerInput2 = new HandlerInputFactory(
         new RequestEnvelopeFactory(new LaunchRequestFactory())
       )
         .setPersistanceAdapter(adapter)
         .create();
-      const target2 = new ExtendClass(handlerInput2.attributesManager)
+      const target2 = new ExtendClass(handlerInput2.attributesManager);
       await target.getPersistentAttributes({
-        count: 2
-      })
-      const attributes = await target2.getPersistentAttributes()
+        count: 2,
+      });
+      const attributes = await target2.getPersistentAttributes();
       expect(attributes).toEqual({
         name: 'john',
-        count: 0
-      })
-    })
+        count: 0,
+      });
+    });
     it('should saved default atts when call save', async () => {
       handlerInput2 = new HandlerInputFactory(
         new RequestEnvelopeFactory(new LaunchRequestFactory())
       )
         .setPersistanceAdapter(adapter)
         .create();
-      const target2 = new ExtendClass(handlerInput2.attributesManager)
-      const att =await target.getPersistentAttributes({
-        count: 2
-      })
-      await target.updatePersistentAttributes(att)
-      await target.save()
-      const attributes = await target2.getPersistentAttributes()
+      const target2 = new ExtendClass(handlerInput2.attributesManager);
+      const att = await target.getPersistentAttributes({
+        count: 2,
+      });
+      await target.updatePersistentAttributes(att);
+      await target.save();
+      const attributes = await target2.getPersistentAttributes();
       expect(attributes).toEqual({
         name: 'john',
-        count: 2
-      })
-    })
-  })
+        count: 2,
+      });
+    });
+  });
 
   describe('Class method test', () => {
     it('| should not save adn get persisted attributes without execute save method', async () => {

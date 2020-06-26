@@ -34,7 +34,7 @@ export class PersistentAttributesManager<
   private static instance: PersistentAttributesManager;
   private readonly logger: Logger = new DefaultLogger();
   private hasUpdated: boolean = false;
-  protected readonly defaultAttributes?: T = undefined
+  protected readonly defaultAttributes?: T = undefined;
 
   public static getInstance<
     T extends PersistentAttributes = PersistentAttributes
@@ -50,7 +50,9 @@ export class PersistentAttributesManager<
     this.attributeManager = attributesManager;
   }
 
-  public async getPersistentAttributes(defaultAttributes?: Partial<T>): Promise<T> {
+  public async getPersistentAttributes(
+    defaultAttributes?: Partial<T>
+  ): Promise<T> {
     try {
       const data = await this.attributeManager.getPersistentAttributes();
       if (data) {
@@ -60,7 +62,7 @@ export class PersistentAttributesManager<
           ...data,
         } as T;
         this.attributeManager.setPersistentAttributes(item);
-        return item
+        return item;
       }
     } catch (e) {
       this.logger.debug(e.name);
@@ -69,9 +71,9 @@ export class PersistentAttributesManager<
     const defaultAtts = {
       ...this.defaultAttributes,
       ...defaultAttributes,
-    } as T
+    } as T;
     this.attributeManager.setPersistentAttributes(defaultAtts);
-    return defaultAtts
+    return defaultAtts;
   }
 
   /**
@@ -87,7 +89,9 @@ export class PersistentAttributesManager<
    *  await persistentAttributesManager.save()
    *  ```
    */
-  public async updatePersistentAttributes(attributes: Partial<T>): Promise<void> {
+  public async updatePersistentAttributes(
+    attributes: Partial<T>
+  ): Promise<void> {
     try {
       const data = await this.attributeManager.getPersistentAttributes();
       this.attributeManager.setPersistentAttributes(

@@ -90,10 +90,69 @@ We can choose these stage to run the skill
 | AlexaSkillEvent.SkillDisabled | - | Delete the user data from the persistent attributes |
 | ErrorHandler | - | Log the Error and return the error resposne (Supported lang: Japanese / English) |
 
-## Logging
+### Logging
 Automatically log these props.
 
 - Request
 - Response
 
-WIP
+### Optimizing the Database request
+
+TalkyJS has a extended persistentAttributesManager.
+
+```typescript
+SkillFactory.launch({
+  database: {
+    type: 's3', // or 'dynamodb'. When select 'none', it does not work!
+    tableName: 'example-bucket'
+  }
+}).addRequestHandlers({
+  canHandle(input) {
+    return input.requestEnvelope.request.type === 'LaunchRequest'
+  },
+  async handle(input) {
+    // Create manager
+    const persistenceManager = new PersistanteAttributesManager(input.attributesManager)
+
+    // Get saved data with default value
+    const { name } = await persistenceManager.getPersistentAttributes({
+      name: 'sir'
+    })
+
+    // Update parameter with merging exists attributes
+    await persistenceManager.updatePersistentAttributes({
+      now: new Date().toISOString()
+    })
+    return input.responseBuilder.speak(`Hello ${name}`).getResponse()
+  }
+})
+```
+
+And all persistent attributes using the manager will saved at the ResponseInterceptor automatically.
+So, the database connection has been optimized.
+
+#### Save immediately
+
+We can save it to execute `await persistenceAdapter.save()` method.
+And the method is checking is the attributes updated.
+
+```typescript
+// Update attributes
+await persistenceManager.updatePersistentAttributes({
+  now: new Date().toISOString()
+})
+
+// Save now!
+await persistenceAdapter.save()
+
+// Nothing to do (Because no attributes has been updated)
+await persistenceAdapter.save()
+
+// Update attributes second time
+await persistenceManager.updatePersistentAttributes({
+  now: new Date().toISOString()
+})
+
+// Save!
+await persistenceAdapter.save()
+```

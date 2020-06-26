@@ -101,6 +101,7 @@ Automatically log these props.
 TalkyJS has a extended persistentAttributesManager.
 
 ```typescript
+import { PersistanteAttributesManager, SkillFactory } from '@talkyjs/core';
 SkillFactory.launch({
   database: {
     type: 's3', // or 'dynamodb'. When select 'none', it does not work!

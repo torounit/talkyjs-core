@@ -8,9 +8,9 @@ export const SessionEndedRequestHandler: RequestHandler = {
   },
   handle(input) {
     const { logger } = LoggerService.getInstance(input.requestEnvelope);
-    const request = getRequest<SessionEndedRequest>(input.requestEnvelope)
-    logger.info('Session ended with reason:', request.reason)
-    if (request.error) logger.error('Error', request.error)
-    return input.responseBuilder.getResponse()
+    const request = getRequest<SessionEndedRequest>(input.requestEnvelope);
+    logger.info('Session ended with reason:', request.reason);
+    if (request.error) logger.error('Error', request.error);
+    return input.responseBuilder.getResponse();
   },
 };

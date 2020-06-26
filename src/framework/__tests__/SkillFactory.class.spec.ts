@@ -28,8 +28,8 @@ describe('SkillFactoryr', () => {
       return new SkillFactory({
         database: dbConf,
         errorHandler: {
-          usePreset: false
-        }
+          usePreset: false,
+        },
       }).addRequestHandlers({
         canHandle() {
           return true;
@@ -113,8 +113,8 @@ describe('SkillFactoryr', () => {
         const skill = new SkillFactory({
           stage: 'production',
           errorHandler: {
-            usePreset: false
-          }
+            usePreset: false,
+          },
         });
         await expect(
           skill.createLambdaHandler()(requestEnvelope)

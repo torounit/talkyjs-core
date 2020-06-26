@@ -23,8 +23,8 @@ export type TalkyJSErrorHandlerConfig = {
   usePreset: boolean;
   sentry?: {
     dsn: string;
-  }
-}
+  };
+};
 
 /**
  * Database (PersistanceAdapter) configs

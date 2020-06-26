@@ -54,7 +54,7 @@ export class SkillFactory {
   /**
    * ErrorConfig
    */
-  private _errorHandler: TalkyJSErrorHandlerConfig
+  private _errorHandler: TalkyJSErrorHandlerConfig;
 
   /**
    * Skill working stage
@@ -68,9 +68,12 @@ export class SkillFactory {
     if (skillId) this.skillBuilders.withSkillId(skillId);
     this._configureAPIClients(config);
     this._configureDBClients(config);
-    this._errorHandler = config && config.errorHandler ? config.errorHandler : {
-        usePreset: true
-    }
+    this._errorHandler =
+      config && config.errorHandler
+        ? config.errorHandler
+        : {
+            usePreset: true,
+          };
   }
 
   /**
@@ -91,10 +94,10 @@ export class SkillFactory {
     this._hasGeneralHandlerAdded = true;
     withRepeatIntentHandler(this.skillBuilders);
     this.skillBuilders.addRequestHandlers(
-        SessionEndedRequestHandler,
-        SkillDisabledEventHandler,
-    )
-    withErrorHandler(this.skillBuilders, this._errorHandler)
+      SessionEndedRequestHandler,
+      SkillDisabledEventHandler
+    );
+    withErrorHandler(this.skillBuilders, this._errorHandler);
     return this;
   }
 
@@ -175,17 +178,17 @@ export class SkillFactory {
    * @param handlers
    */
   public addErrorHandlers(...handlers: ErrorHandler[]): this {
-    this.skillBuilders.addErrorHandlers(...handlers)      
-    return this
+    this.skillBuilders.addErrorHandlers(...handlers);
+    return this;
   }
 
   /**
    * [Proxy] add requestInterceptors
-   * @param interceptors 
+   * @param interceptors
    */
   public addRequestInterceptors(...interceptors: RequestInterceptor[]): this {
-    this.skillBuilders.addRequestInterceptors(...interceptors)      
-    return this
+    this.skillBuilders.addRequestInterceptors(...interceptors);
+    return this;
   }
 
   /**

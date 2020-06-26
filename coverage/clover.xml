@@ -97,9 +97,9 @@
         <line num="1" count="6" type="stmt"/>
       </file>
     </package>
-    <package name="src.PersistanteAttributesManager">
+    <package name="src.PersistentAttributesManager">
       <metrics statements="41" coveredstatements="33" conditionals="6" coveredconditionals="5" methods="11" coveredmethods="8"/>
-      <file name="PersistanteAttributesManager.interceptor.ts" path="/Users/okamotohidetaka/development/npm/talkyjs/core/src/PersistanteAttributesManager/PersistanteAttributesManager.interceptor.ts">
+      <file name="PersistentAttributesManager.interceptor.ts" path="/Users/okamotohidetaka/development/npm/talkyjs/core/src/PersistentAttributesManager/PersistentAttributesManager.interceptor.ts">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="2" count="4" type="stmt"/>
         <line num="7" count="4" type="stmt"/>
@@ -107,7 +107,7 @@
         <line num="9" count="2" type="stmt"/>
         <line num="12" count="4" type="stmt"/>
       </file>
-      <file name="PersistanteAttributesManager.service.ts" path="/Users/okamotohidetaka/development/npm/talkyjs/core/src/PersistanteAttributesManager/PersistanteAttributesManager.service.ts">
+      <file name="PersistentAttributesManager.service.ts" path="/Users/okamotohidetaka/development/npm/talkyjs/core/src/PersistentAttributesManager/PersistentAttributesManager.service.ts">
         <metrics statements="34" coveredstatements="26" conditionals="6" coveredconditionals="5" methods="10" coveredmethods="7"/>
         <line num="13" count="4" type="stmt"/>
         <line num="14" count="4" type="stmt"/>
@@ -144,7 +144,7 @@
         <line num="100" count="9" type="stmt"/>
         <line num="102" count="4" type="stmt"/>
       </file>
-      <file name="index.ts" path="/Users/okamotohidetaka/development/npm/talkyjs/core/src/PersistanteAttributesManager/index.ts">
+      <file name="index.ts" path="/Users/okamotohidetaka/development/npm/talkyjs/core/src/PersistentAttributesManager/index.ts">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="4" type="stmt"/>
         <line num="2" count="4" type="stmt"/>

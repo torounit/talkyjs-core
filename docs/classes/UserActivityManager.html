@@ -74,7 +74,7 @@
                                     <a href="../classes/LoggerService.html" >LoggerService</a>
                                 </li>
                                 <li class="link">
-                                    <a href="../classes/PersistanteAttributesManager.html" >PersistanteAttributesManager</a>
+                                    <a href="../classes/PersistentAttributesManager.html" >PersistentAttributesManager</a>
                                 </li>
                                 <li class="link">
                                     <a href="../classes/RepeatIntentService.html" >RepeatIntentService</a>
@@ -108,7 +108,7 @@
                                     <a href="../interfaces/Logger.html" >Logger</a>
                                 </li>
                                 <li class="link">
-                                    <a href="../interfaces/PersistanteAttributes.html" >PersistanteAttributes</a>
+                                    <a href="../interfaces/PersistentAttributes.html" >PersistentAttributes</a>
                                 </li>
                                 <li class="link">
                                     <a href="../interfaces/TalkyJSAPIClientConfig.html" >TalkyJSAPIClientConfig</a>
@@ -211,7 +211,7 @@
                                            <a href="../classes/LoggerService.html" >LoggerService</a>
                                        </li>
                                        <li class="link">
-                                           <a href="../classes/PersistanteAttributesManager.html" >PersistanteAttributesManager</a>
+                                           <a href="../classes/PersistentAttributesManager.html" >PersistentAttributesManager</a>
                                        </li>
                                        <li class="link">
                                            <a href="../classes/RepeatIntentService.html" >RepeatIntentService</a>
@@ -245,7 +245,7 @@
                                            <a href="../interfaces/Logger.html" >Logger</a>
                                        </li>
                                        <li class="link">
-                                           <a href="../interfaces/PersistanteAttributes.html" >PersistanteAttributes</a>
+                                           <a href="../interfaces/PersistentAttributes.html" >PersistentAttributes</a>
                                        </li>
                                        <li class="link">
                                            <a href="../interfaces/TalkyJSAPIClientConfig.html" >TalkyJSAPIClientConfig</a>
@@ -508,7 +508,7 @@
         <pre><code class="hljs javascript">import { HandlerInput, isNewSession } from &#x27;ask-sdk-core&#x27;;
 import { RequestEnvelope } from &#x27;ask-sdk-model&#x27;;
 import moment from &#x27;moment&#x27;;
-import { PersistanteAttributesManager } from &#x27;../PersistanteAttributesManager&#x27;;
+import { PersistentAttributesManager } from &#x27;../PersistentAttributesManager&#x27;;
 import {
   UserActivityConfig,
   UserActivityAdapter,
@@ -516,7 +516,7 @@ import {
 } from &#x27;./UserActivity.interface&#x27;;
 import { getUnixTime, defaultUserActivityConfig } from &#x27;./UserActivity.utils&#x27;;
 
-export class UserActivityManager extends PersistanteAttributesManager&lt;{
+export class UserActivityManager extends PersistentAttributesManager&lt;{
   invocationNumber: number;
   lastInvocationTime: number;
 }&gt; {

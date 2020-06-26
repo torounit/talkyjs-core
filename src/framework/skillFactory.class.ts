@@ -26,7 +26,7 @@ import {
   SkillDisabledEventHandler,
   withErrorHandler,
 } from '../handlers/index';
-import { SavePersistentAttributesInterceptor } from '../PersistanteAttributesManager';
+import { SavePersistentAttributesInterceptor } from '../PersistentAttributesManager';
 import { SkillInvocationRecorder } from '../CRM';
 
 // let cachedSkill: CustomSkillBuilder

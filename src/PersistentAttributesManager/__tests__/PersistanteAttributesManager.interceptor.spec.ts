@@ -6,11 +6,11 @@ import {
 } from '@ask-utils/test';
 import {
   SavePersistentAttributesInterceptor,
-  PersistanteAttributesManager,
+  PersistentAttributesManager,
 } from '../index';
 import { HandlerInput } from 'ask-sdk-core';
 
-describe('PersistanteAttributesManager.interceptor.ts', () => {
+describe('PersistentAttributesManager.interceptor.ts', () => {
   let handlerInput: HandlerInput;
   let adapter = new MockPersistenceAdapter();
   const savePersistentAttributes = jest.fn();
@@ -28,7 +28,7 @@ describe('PersistanteAttributesManager.interceptor.ts', () => {
     expect(savePersistentAttributes).not.toHaveBeenCalled();
   });
   it('| Should execute savePersistentAttribuets if any prop has been updated', async () => {
-    const persistentManager = PersistanteAttributesManager.getInstance(
+    const persistentManager = PersistentAttributesManager.getInstance(
       handlerInput.attributesManager
     );
 

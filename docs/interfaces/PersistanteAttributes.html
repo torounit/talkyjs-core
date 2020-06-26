@@ -74,7 +74,7 @@
                                     <a href="../classes/LoggerService.html" >LoggerService</a>
                                 </li>
                                 <li class="link">
-                                    <a href="../classes/PersistanteAttributesManager.html" >PersistanteAttributesManager</a>
+                                    <a href="../classes/PersistentAttributesManager.html" >PersistentAttributesManager</a>
                                 </li>
                                 <li class="link">
                                     <a href="../classes/RepeatIntentService.html" >RepeatIntentService</a>
@@ -108,7 +108,7 @@
                                     <a href="../interfaces/Logger.html" >Logger</a>
                                 </li>
                                 <li class="link">
-                                    <a href="../interfaces/PersistanteAttributes.html"  class="active" >PersistanteAttributes</a>
+                                    <a href="../interfaces/PersistentAttributes.html"  class="active" >PersistentAttributes</a>
                                 </li>
                                 <li class="link">
                                     <a href="../interfaces/TalkyJSAPIClientConfig.html" >TalkyJSAPIClientConfig</a>
@@ -211,7 +211,7 @@
                                            <a href="../classes/LoggerService.html" >LoggerService</a>
                                        </li>
                                        <li class="link">
-                                           <a href="../classes/PersistanteAttributesManager.html" >PersistanteAttributesManager</a>
+                                           <a href="../classes/PersistentAttributesManager.html" >PersistentAttributesManager</a>
                                        </li>
                                        <li class="link">
                                            <a href="../classes/RepeatIntentService.html" >RepeatIntentService</a>
@@ -245,7 +245,7 @@
                                            <a href="../interfaces/Logger.html" >Logger</a>
                                        </li>
                                        <li class="link">
-                                           <a href="../interfaces/PersistanteAttributes.html"  class="active" >PersistanteAttributes</a>
+                                           <a href="../interfaces/PersistentAttributes.html"  class="active" >PersistentAttributes</a>
                                        </li>
                                        <li class="link">
                                            <a href="../interfaces/TalkyJSAPIClientConfig.html" >TalkyJSAPIClientConfig</a>
@@ -299,7 +299,7 @@
 
 <ol class="breadcrumb">
   <li>Interfaces</li>
-  <li>PersistanteAttributes</li>
+  <li>PersistentAttributes</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -317,7 +317,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/PersistanteAttributesManager/PersistanteAttributesManager.service.ts</code>
+            <code>src/PersistentAttributesManager/PersistentAttributesManager.service.ts</code>
         </p>
 
 
@@ -346,7 +346,7 @@ interface Logger {
   error(...args: any): void;
 }
 
-export interface PersistanteAttributes {
+export interface PersistentAttributes {
   [key: string]: any;
 }
 
@@ -368,20 +368,20 @@ class DefaultLogger implements Logger {
 /**
  * Simply wrapper of ask-sdk persistentAttributesManager
  */
-export class PersistanteAttributesManager&lt;
-  T extends PersistanteAttributes &#x3D; PersistanteAttributes
+export class PersistentAttributesManager&lt;
+  T extends PersistentAttributes &#x3D; PersistentAttributes
 &gt; {
-  private static instance: PersistanteAttributesManager;
+  private static instance: PersistentAttributesManager;
   private readonly logger: Logger &#x3D; new DefaultLogger();
   private hasUpdated: boolean &#x3D; false;
 
   public static getInstance&lt;
-    T extends PersistanteAttributes &#x3D; PersistanteAttributes
-  &gt;(attributesManager: AttributesManager): PersistanteAttributesManager&lt;T&gt; {
+    T extends PersistentAttributes &#x3D; PersistentAttributes
+  &gt;(attributesManager: AttributesManager): PersistentAttributesManager&lt;T&gt; {
     if (!this.instance) {
-      this.instance &#x3D; new PersistanteAttributesManager(attributesManager);
+      this.instance &#x3D; new PersistentAttributesManager(attributesManager);
     }
-    return this.instance as PersistanteAttributesManager&lt;T&gt;;
+    return this.instance as PersistentAttributesManager&lt;T&gt;;
   }
 
   protected readonly attributeManager: AttributesManager;
@@ -412,7 +412,7 @@ export class PersistanteAttributesManager&lt;
    * @param attributes
    * @example
    * &#x60;&#x60;&#x60;
-   * const persistentAttributesManager &#x3D; PersistanteAttributesManager.getInstance(handlerInput.attributesManager)
+   * const persistentAttributesManager &#x3D; PersistentAttributesManager.getInstance(handlerInput.attributesManager)
    *  await persistentAttributesManager.updatePersistentAttributes({
    *      name: &#x27;John&#x27;
    *  })

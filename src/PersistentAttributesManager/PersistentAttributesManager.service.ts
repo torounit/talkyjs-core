@@ -6,7 +6,7 @@ interface Logger {
   error(...args: any): void;
 }
 
-export interface PersistanteAttributes {
+export interface PersistentAttributes {
   [key: string]: any;
 }
 
@@ -28,20 +28,21 @@ class DefaultLogger implements Logger {
 /**
  * Simply wrapper of ask-sdk persistentAttributesManager
  */
-export class PersistanteAttributesManager<
-  T extends PersistanteAttributes = PersistanteAttributes
+export class PersistentAttributesManager<
+  T extends PersistentAttributes = PersistentAttributes
 > {
-  private static instance: PersistanteAttributesManager;
+  private static instance: PersistentAttributesManager;
   private readonly logger: Logger = new DefaultLogger();
   private hasUpdated: boolean = false;
+  protected readonly defaultAttributes?: T = undefined
 
   public static getInstance<
-    T extends PersistanteAttributes = PersistanteAttributes
-  >(attributesManager: AttributesManager): PersistanteAttributesManager<T> {
+    T extends PersistentAttributes = PersistentAttributes
+  >(attributesManager: AttributesManager): PersistentAttributesManager<T> {
     if (!this.instance) {
-      this.instance = new PersistanteAttributesManager(attributesManager);
+      this.instance = new PersistentAttributesManager(attributesManager);
     }
-    return this.instance as PersistanteAttributesManager<T>;
+    return this.instance as PersistentAttributesManager<T>;
   }
 
   protected readonly attributeManager: AttributesManager;
@@ -49,21 +50,28 @@ export class PersistanteAttributesManager<
     this.attributeManager = attributesManager;
   }
 
-  public async getPersistentAttributes(defaultAttributes: T): Promise<T> {
+  public async getPersistentAttributes(defaultAttributes?: Partial<T>): Promise<T> {
     try {
       const data = await this.attributeManager.getPersistentAttributes();
       if (data) {
-        return {
+        const item = {
+          ...this.defaultAttributes,
           ...defaultAttributes,
           ...data,
-        };
+        } as T;
+        this.attributeManager.setPersistentAttributes(item);
+        return item
       }
     } catch (e) {
       this.logger.debug(e.name);
       this.logger.error(e);
     }
-    this.attributeManager.setPersistentAttributes(defaultAttributes);
-    return defaultAttributes;
+    const defaultAtts = {
+      ...this.defaultAttributes,
+      ...defaultAttributes,
+    } as T
+    this.attributeManager.setPersistentAttributes(defaultAtts);
+    return defaultAtts
   }
 
   /**
@@ -72,14 +80,14 @@ export class PersistanteAttributesManager<
    * @param attributes
    * @example
    * ```
-   * const persistentAttributesManager = PersistanteAttributesManager.getInstance(handlerInput.attributesManager)
+   * const persistentAttributesManager = PersistentAttributesManager.getInstance(handlerInput.attributesManager)
    *  await persistentAttributesManager.updatePersistentAttributes({
    *      name: 'John'
    *  })
    *  await persistentAttributesManager.save()
    *  ```
    */
-  public async updatePersistentAttributes(attributes: T): Promise<void> {
+  public async updatePersistentAttributes(attributes: Partial<T>): Promise<void> {
     try {
       const data = await this.attributeManager.getPersistentAttributes();
       this.attributeManager.setPersistentAttributes(

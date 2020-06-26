@@ -101,7 +101,7 @@ Automatically log these props.
 TalkyJS has a extended persistentAttributesManager.
 
 ```typescript
-import { PersistanteAttributesManager, SkillFactory } from '@talkyjs/core';
+import { PersistentAttributesManager, SkillFactory } from '@talkyjs/core';
 SkillFactory.launch({
   database: {
     type: 's3', // or 'dynamodb'. When select 'none', it does not work!
@@ -113,7 +113,7 @@ SkillFactory.launch({
   },
   async handle(input) {
     // Create manager
-    const persistenceManager = new PersistanteAttributesManager(input.attributesManager)
+    const persistenceManager = new PersistentAttributesManager(input.attributesManager)
 
     // Get saved data with default value
     const { name } = await persistenceManager.getPersistentAttributes({
@@ -131,6 +131,51 @@ SkillFactory.launch({
 
 And all persistent attributes using the manager will saved at the ResponseInterceptor automatically.
 So, the database connection has been optimized.
+
+#### Own attributes management
+
+We can define attributes for your own Skill
+
+```typescript
+type MySkillData = {
+  name: string;
+  favoritesCities: string[];
+  preferedLevel: 'easy' | 'normal' | 'hard'
+}
+class MySkillPersistentAttributesManager extends PersistentAttributesManager<MySkillData> {
+  protected readonly defaultAttributes = {
+    name: '',
+    favoritesCities: [],
+    preferedLevel: 'normal' as const
+  }
+}
+```
+
+And use own class intead of default  class.
+
+```typescript
+SkillFactory.launch({
+  database: {
+    type: 's3',
+    tableName: 'example-bucket'
+  }
+}).addRequestHandlers({
+  canHandle(input) {
+    return input.requestEnvelope.request.type === 'LaunchRequest'
+  },
+  async handle(input) {
+    const persistenceAdapter = new MySkillPersistentAttributesManager(input.attributesManager)
+    const { name } = await persistenceAdapter.getPersistentAttributes()
+    await persistenceAdapter.updatePersistentAttributes({
+      preferedLevel: 'hard'
+    })
+    await persistenceAdapter.save()
+    return input.responseBuilder.speak(`Hello ${name}`).getResponse()
+  }
+})
+```
+
+
 
 #### Save immediately
 

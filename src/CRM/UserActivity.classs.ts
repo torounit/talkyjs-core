@@ -1,7 +1,7 @@
 import { HandlerInput, isNewSession } from 'ask-sdk-core';
 import { RequestEnvelope } from 'ask-sdk-model';
 import moment from 'moment';
-import { PersistanteAttributesManager } from '../PersistanteAttributesManager';
+import { PersistentAttributesManager } from '../PersistentAttributesManager';
 import {
   UserActivityConfig,
   UserActivityAdapter,
@@ -9,7 +9,7 @@ import {
 } from './UserActivity.interface';
 import { getUnixTime, defaultUserActivityConfig } from './UserActivity.utils';
 
-export class UserActivityManager extends PersistanteAttributesManager<{
+export class UserActivityManager extends PersistentAttributesManager<{
   invocationNumber: number;
   lastInvocationTime: number;
 }> {

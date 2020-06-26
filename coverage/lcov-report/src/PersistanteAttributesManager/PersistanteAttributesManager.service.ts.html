@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for src/PersistanteAttributesManager/PersistanteAttributesManager.service.ts</title>
+    <title>Code coverage report for src/PersistentAttributesManager/PersistentAttributesManager.service.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -18,7 +18,7 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/PersistanteAttributesManager</a> PersistanteAttributesManager.service.ts</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/PersistentAttributesManager</a> PersistentAttributesManager.service.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
@@ -268,7 +268,7 @@ interface Logger {
   error(...args: any): void;
 }
 &nbsp;
-export interface PersistanteAttributes {
+export interface PersistentAttributes {
   [key: string]: any;
 }
 &nbsp;
@@ -290,20 +290,20 @@ class DefaultLogger implements Logger {
 /**
  * Simply wrapper of ask-sdk persistentAttributesManager
  */
-export class PersistanteAttributesManager&lt;
-  T extends PersistanteAttributes = PersistanteAttributes
+export class PersistentAttributesManager&lt;
+  T extends PersistentAttributes = PersistentAttributes
 &gt; {
-  private static instance: PersistanteAttributesManager;
+  private static instance: PersistentAttributesManager;
   private readonly logger: Logger = new DefaultLogger();
   private hasUpdated: boolean = false;
 &nbsp;
   public static getInstance&lt;
-    T extends PersistanteAttributes = PersistanteAttributes
-  &gt;(attributesManager: AttributesManager): PersistanteAttributesManager&lt;T&gt; {
+    T extends PersistentAttributes = PersistentAttributes
+  &gt;(attributesManager: AttributesManager): PersistentAttributesManager&lt;T&gt; {
     if (!this.instance) {
-      this.instance = new PersistanteAttributesManager(attributesManager);
+      this.instance = new PersistentAttributesManager(attributesManager);
     }
-    return this.instance as PersistanteAttributesManager&lt;T&gt;;
+    return this.instance as PersistentAttributesManager&lt;T&gt;;
   }
 &nbsp;
   protected readonly attributeManager: AttributesManager;
@@ -334,7 +334,7 @@ export class PersistanteAttributesManager&lt;
    * @param attributes
    * @example
    * ```
-   * const persistentAttributesManager = PersistanteAttributesManager.getInstance(handlerInput.attributesManager)
+   * const persistentAttributesManager = PersistentAttributesManager.getInstance(handlerInput.attributesManager)
    *  await persistentAttributesManager.updatePersistentAttributes({
    *      name: 'John'
    *  })

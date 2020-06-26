@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for src/PersistanteAttributesManager/PersistanteAttributesManager.interceptor.ts</title>
+    <title>Code coverage report for src/PersistentAttributesManager/PersistentAttributesManager.interceptor.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -18,7 +18,7 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/PersistanteAttributesManager</a> PersistanteAttributesManager.interceptor.ts</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/PersistentAttributesManager</a> PersistentAttributesManager.interceptor.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
@@ -85,14 +85,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { ResponseInterceptor } from 'ask-sdk-core';
-import { PersistanteAttributesManager } from './PersistanteAttributesManager.service';
+import { PersistentAttributesManager } from './PersistentAttributesManager.service';
 &nbsp;
 /**
  * ResponseInterceptor to auto save the persistent attributes if any props has beend update
  */
 export const SavePersistentAttributesInterceptor: ResponseInterceptor = {
   async process({ attributesManager }): Promise&lt;void&gt; {
-    const persistentAttributesManager = PersistanteAttributesManager.getInstance(
+    const persistentAttributesManager = PersistentAttributesManager.getInstance(
       attributesManager
     );
     await persistentAttributesManager.save();

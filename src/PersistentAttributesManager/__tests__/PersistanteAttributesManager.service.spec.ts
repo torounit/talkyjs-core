@@ -5,7 +5,7 @@ import {
   LaunchRequestFactory,
 } from '@ask-utils/test';
 import { HandlerInput } from 'ask-sdk-core';
-import { PersistanteAttributesManager } from '../index';
+import { PersistentAttributesManager } from '../index';
 
 describe('PersistenteAttributesManager.service.ts', () => {
   let handlerInput: HandlerInput;
@@ -26,7 +26,7 @@ describe('PersistenteAttributesManager.service.ts', () => {
   });
   describe('Singleton test', () => {
     it('| Should save and get next request', async () => {
-      const persistentManager = PersistanteAttributesManager.getInstance(
+      const persistentManager = PersistentAttributesManager.getInstance(
         handlerInput.attributesManager
       );
 
@@ -43,9 +43,91 @@ describe('PersistenteAttributesManager.service.ts', () => {
     });
   });
 
+  describe('class extend test', () => {
+    type TestTypes = {
+      name: string;
+      count: number;
+    }
+    class ExtendClass extends PersistentAttributesManager<TestTypes> {
+      protected readonly defaultAttributes = {
+        name: 'john',
+        count: 0
+      }
+    }
+    let target: ExtendClass
+    beforeEach(() => {
+      adapter = new MockPersistenceAdapter();
+      handlerInput = new HandlerInputFactory(
+        new RequestEnvelopeFactory(new LaunchRequestFactory())
+      )
+        .setPersistanceAdapter(adapter)
+        .create();
+      target = new ExtendClass(handlerInput.attributesManager)
+    })
+    it('should get default value', async () => {
+      const attributes = await target.getPersistentAttributes()
+      expect(attributes).toEqual({
+        name: 'john',
+        count: 0
+      })
+    })
+    it('should get overwritten default value', async () => {
+      const attributes = await target.getPersistentAttributes({
+        count: 2
+      })
+      expect(attributes).toEqual({
+        name: 'john',
+        count: 2
+      })
+    })
+    it('should get overwritten default value', async () => {
+      const attributes = await target.getPersistentAttributes({
+        count: 2
+      })
+      expect(attributes).toEqual({
+        name: 'john',
+        count: 2
+      })
+    })
+    it('should not saved default atts when does not call save', async () => {
+      handlerInput2 = new HandlerInputFactory(
+        new RequestEnvelopeFactory(new LaunchRequestFactory())
+      )
+        .setPersistanceAdapter(adapter)
+        .create();
+      const target2 = new ExtendClass(handlerInput2.attributesManager)
+      await target.getPersistentAttributes({
+        count: 2
+      })
+      const attributes = await target2.getPersistentAttributes()
+      expect(attributes).toEqual({
+        name: 'john',
+        count: 0
+      })
+    })
+    it('should saved default atts when call save', async () => {
+      handlerInput2 = new HandlerInputFactory(
+        new RequestEnvelopeFactory(new LaunchRequestFactory())
+      )
+        .setPersistanceAdapter(adapter)
+        .create();
+      const target2 = new ExtendClass(handlerInput2.attributesManager)
+      const att =await target.getPersistentAttributes({
+        count: 2
+      })
+      await target.updatePersistentAttributes(att)
+      await target.save()
+      const attributes = await target2.getPersistentAttributes()
+      expect(attributes).toEqual({
+        name: 'john',
+        count: 2
+      })
+    })
+  })
+
   describe('Class method test', () => {
     it('| should not save adn get persisted attributes without execute save method', async () => {
-      const persistentManager = new PersistanteAttributesManager(
+      const persistentManager = new PersistentAttributesManager(
         handlerInput.attributesManager
       );
 
@@ -58,7 +140,7 @@ describe('PersistenteAttributesManager.service.ts', () => {
       ).toEqual({});
     });
     it('| should save adn get persisted attributes', async () => {
-      const persistentManager = new PersistanteAttributesManager(
+      const persistentManager = new PersistentAttributesManager(
         handlerInput.attributesManager
       );
 
@@ -76,7 +158,7 @@ describe('PersistenteAttributesManager.service.ts', () => {
     it('| Should execute savePersistentAttribuets if any prop has been updated', async () => {
       const { attributesManager } = handlerInput;
       attributesManager.savePersistentAttributes = jest.fn();
-      const persistentManager = new PersistanteAttributesManager(
+      const persistentManager = new PersistentAttributesManager(
         attributesManager
       );
 
@@ -89,7 +171,7 @@ describe('PersistenteAttributesManager.service.ts', () => {
     it('| Should not execute savePersistentAttribuets if any prop has been updated', async () => {
       const { attributesManager } = handlerInput;
       attributesManager.savePersistentAttributes = jest.fn();
-      const persistentManager = new PersistanteAttributesManager(
+      const persistentManager = new PersistentAttributesManager(
         attributesManager
       );
 
@@ -99,7 +181,7 @@ describe('PersistenteAttributesManager.service.ts', () => {
     it('| Should execute savePersistentAttribuets2 times', async () => {
       const { attributesManager } = handlerInput;
       attributesManager.savePersistentAttributes = jest.fn();
-      const persistentManager = new PersistanteAttributesManager(
+      const persistentManager = new PersistentAttributesManager(
         attributesManager
       );
 
@@ -115,7 +197,7 @@ describe('PersistenteAttributesManager.service.ts', () => {
     it('| Should execute savePersistentAttribuets2 times', async () => {
       const { attributesManager } = handlerInput;
       attributesManager.savePersistentAttributes = jest.fn();
-      const persistentManager = new PersistanteAttributesManager(
+      const persistentManager = new PersistentAttributesManager(
         attributesManager
       );
 
@@ -132,7 +214,7 @@ describe('PersistenteAttributesManager.service.ts', () => {
       );
     });
     it('| Should merge exists props', async () => {
-      const persistentManager = new PersistanteAttributesManager(
+      const persistentManager = new PersistentAttributesManager(
         handlerInput.attributesManager
       );
 

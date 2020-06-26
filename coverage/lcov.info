@@ -184,7 +184,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:/Users/okamotohidetaka/development/npm/talkyjs/core/src/PersistanteAttributesManager/PersistanteAttributesManager.interceptor.ts
+SF:/Users/okamotohidetaka/development/npm/talkyjs/core/src/PersistentAttributesManager/PersistentAttributesManager.interceptor.ts
 FN:8,(anonymous_0)
 FNF:1
 FNH:1
@@ -200,13 +200,13 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:/Users/okamotohidetaka/development/npm/talkyjs/core/src/PersistanteAttributesManager/PersistanteAttributesManager.service.ts
+SF:/Users/okamotohidetaka/development/npm/talkyjs/core/src/PersistentAttributesManager/PersistentAttributesManager.service.ts
 FN:13,(anonymous_0)
 FN:14,(anonymous_2)
 FN:18,(anonymous_3)
 FN:22,(anonymous_4)
 FN:31,(anonymous_5)
-FN:48,PersistanteAttributesManager
+FN:48,PersistentAttributesManager
 FN:38,(anonymous_7)
 FN:52,(anonymous_8)
 FN:82,(anonymous_11)
@@ -218,7 +218,7 @@ FNDA:0,(anonymous_2)
 FNDA:0,(anonymous_3)
 FNDA:0,(anonymous_4)
 FNDA:4,(anonymous_5)
-FNDA:15,PersistanteAttributesManager
+FNDA:15,PersistentAttributesManager
 FNDA:4,(anonymous_7)
 FNDA:12,(anonymous_8)
 FNDA:16,(anonymous_11)
@@ -269,7 +269,7 @@ BRF:6
 BRH:5
 end_of_record
 TN:
-SF:/Users/okamotohidetaka/development/npm/talkyjs/core/src/PersistanteAttributesManager/index.ts
+SF:/Users/okamotohidetaka/development/npm/talkyjs/core/src/PersistentAttributesManager/index.ts
 FNF:0
 FNH:0
 DA:1,4

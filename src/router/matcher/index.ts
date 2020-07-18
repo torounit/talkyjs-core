@@ -1,2 +1,2 @@
-export * from './RouteMatcher'
-export * from './helpers'
+export * from './RouteMatcher';
+export * from './helpers';

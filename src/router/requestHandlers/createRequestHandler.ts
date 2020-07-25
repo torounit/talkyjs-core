@@ -2,11 +2,11 @@ import { StateManager, State, InitialState } from '@ask-utils/situation';
 import { RequestHandler } from 'ask-sdk';
 import { Response } from 'ask-sdk-model'; // 'ask-sdk-core/node_modules/ask-sdk-model'
 import { RouteMatcher } from '../matcher';
-import { Router, Situation } from '../model';
+import { Router, RouteSituation } from '../model';
 
 const getSituation = <T extends State = State>(
   route: Router<T>
-): Situation | undefined => {
+): RouteSituation | undefined => {
   const { situation } = route;
   return situation || undefined;
 };

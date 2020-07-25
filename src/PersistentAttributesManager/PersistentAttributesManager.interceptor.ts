@@ -6,7 +6,7 @@ import { PersistentAttributesManager } from './PersistentAttributesManager.servi
  */
 export const SavePersistentAttributesInterceptor: ResponseInterceptor = {
   async process({ attributesManager }): Promise<void> {
-    const persistentAttributesManager = PersistentAttributesManager.getInstance(
+    const persistentAttributesManager = new PersistentAttributesManager(
       attributesManager
     );
     await persistentAttributesManager.save();

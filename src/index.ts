@@ -4,3 +4,6 @@ export * from './SessionAttributesManager';
 export * from './framework';
 export * from './Situation';
 export * from './router';
+export * from './CRM';
+export * from './Config/Config';
+export * from './router';

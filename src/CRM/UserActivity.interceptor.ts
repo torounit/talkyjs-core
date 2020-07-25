@@ -7,3 +7,11 @@ export const SkillInvocationRecorder: RequestInterceptor = {
     await manager.trackSkillInvocation();
   },
 };
+
+/**
+ * リクエスト時に起動数とターン数を記録する。
+ * ・起動数はDBにはいる（実装済み）
+ * ・ターン数はセッションにいれておく
+ * 　・イベント系とかのリクエストは除外するようにする
+ * 　・あとAttributesManagerがない時も除外
+ */

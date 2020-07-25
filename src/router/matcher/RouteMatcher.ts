@@ -3,7 +3,8 @@ import { getRequest, isIntentRequestType } from '@ask-utils/core';
 import { StateManager, State } from '@ask-utils/situation';
 import { Request } from 'ask-sdk-model'; // 'ask-sdk-core/node_modules/ask-sdk-model'
 import { Router } from '../model';
-import { shouldMatchIntentRequest, shouldMatchRequestType } from './helpers';
+import { shouldMatchIntentRequest, shouldMatchRequestType, compareCountableSituation } from './helpers';
+import { SituationService } from '../../Situation/Situation.service';
 
 export class RouteMatcher<T extends State = State> {
   private readonly input: HandlerInput;
@@ -55,6 +56,29 @@ export class RouteMatcher<T extends State = State> {
         );
       }
     }
+
+    /**
+     * Check the situation
+     * - invocationCount
+     * - turnCount
+     **/
+    if (this.targetRoute.situation) {
+      const situationMgr = new SituationService(this.input)
+      const situation = situationMgr.getSituation()
+      const {
+        invocationCount,
+        turnCount,
+      }= this.targetRoute.situation
+      if (invocationCount) {
+        const compareByInvocationCount = compareCountableSituation(invocationCount, situation.invocationNumber)
+        if (compareByInvocationCount) this.canHandle = compareByInvocationCount === 'true'
+      }
+      if (turnCount) {
+        const compareByTurnCount = compareCountableSituation(turnCount, situation.turnCount)
+        if (compareByTurnCount) this.canHandle = compareByTurnCount === 'true'
+      }
+    }
+     /**/
 
     /**
      * Execute custom matcher function

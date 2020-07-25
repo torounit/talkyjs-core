@@ -6,6 +6,7 @@ import {
   MockPersistenceAdapter,
 } from '@ask-utils/test';
 import { HandlerInput } from 'ask-sdk-core';
+import { defaultUserActivityConfig } from '../UserActivity.utils';
 
 const setupClients = () => {
   const handlerInput: HandlerInput = new HandlerInputFactory(
@@ -13,7 +14,9 @@ const setupClients = () => {
   )
     .setPersistanceAdapter(new MockPersistenceAdapter())
     .create();
-  const mgr = new UserActivityManager(handlerInput);
+  const mgr = new UserActivityManager(handlerInput, defaultUserActivityConfig, {
+    dbType: 's3'
+  });
   return {
     handlerInput,
     mgr,

@@ -2,6 +2,7 @@ import { isIntentRequestType } from '@ask-utils/core';
 import { State } from '@ask-utils/situation';
 import { Request } from 'ask-sdk-model'; // 'ask-sdk-core/node_modules/ask-sdk-model'
 import { Router } from '../model';
+import { CountSituationOption } from '../model';
 
 export const shouldMatchRequestType = <T extends State = State>(
   request: Request,
@@ -28,3 +29,33 @@ export const shouldMatchIntentRequest = <T extends State = State>(
   );
   return !!matchedIntentName;
 };
+
+type CompareResult = "true" | "false" | undefined 
+export const compareCountableSituation = (situation?: CountSituationOption, target: number = 0): CompareResult => {
+  let result: CompareResult;
+  if (!situation) return result;
+  const {
+    gte,
+    gt,
+    eq,
+    lt,
+    lte,
+  } = situation
+  if (eq !== undefined) {
+    result = eq === target ? "true" : "false"
+    return result
+  }
+
+  if (gte !== undefined) {
+    result = gte <= target ? "true" : "false"
+  } else if (gt !== undefined) {
+    result = gt < target ? "true" : "false"
+  }
+
+  if (lt !== undefined) {
+    result = lt > target ? "true" : "false"
+  } else if (lte !== undefined) {
+    result = lte >= target ? "true" : "false"
+  }
+  return result
+}

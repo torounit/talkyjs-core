@@ -15,12 +15,14 @@ import { TalkyJSDBType } from 'framework';
 type ActivityAttributes = {
   invocationNumber: number;
   lastInvocationTime: number;
-}
-export class UserActivityManager extends PersistentAttributesManager<ActivityAttributes> {
+};
+export class UserActivityManager extends PersistentAttributesManager<
+  ActivityAttributes
+> {
   protected readonly adapter?: UserActivityAdapter;
   protected readonly requestEnvelope: RequestEnvelope;
   protected readonly config: UserActivityConfig;
-  private readonly dbType: TalkyJSDBType
+  private readonly dbType: TalkyJSDBType;
   protected readonly defaultAttributes: ActivityAttributes = {
     invocationNumber: 0,
     lastInvocationTime: getUnixTime(),
@@ -33,13 +35,16 @@ export class UserActivityManager extends PersistentAttributesManager<ActivityAtt
     config: UserActivityConfig = defaultUserActivityConfig,
     options?: {
       adapter?: UserActivityAdapter;
-      dbType?: TalkyJSDBType
+      dbType?: TalkyJSDBType;
     }
   ) {
     super(attributesManager);
     this.requestEnvelope = requestEnvelope;
     this.adapter = options?.adapter;
-    this.dbType = options && options.dbType ? options.dbType : SkillConfig.getInstance().getDBType()
+    this.dbType =
+      options && options.dbType
+        ? options.dbType
+        : SkillConfig.getInstance().getDBType();
     this.config = config;
   }
 
@@ -82,7 +87,7 @@ export class UserActivityManager extends PersistentAttributesManager<ActivityAtt
     if (isSkillEvent(this.requestEnvelope)) return;
     if (!this.attributeManager) return;
     const activity = await this.getLastActivity();
-    const data = activity || this.defaultAttributes
+    const data = activity || this.defaultAttributes;
     data.invocationNumber = data.invocationNumber + 1;
     data.lastInvocationTime = getUnixTime();
 

@@ -64,33 +64,36 @@ describe('RouteMatcher', () => {
       });
 
       it.each([
-        [{gte: 0}, true],
-        [{gt: 0}, false],
-        [{eq: 0}, true],
-        [{lt: 0}, false],
-        [{lte: 0}, true],
-        [{gte: 5}, false],
-        [{gt: 5}, false],
-        [{eq: 5}, false],
-        [{lt: 5}, true],
-        [{lte: 5}, true],
-      ])('should return true if the invocation Count situation is 0 (Operator; %p)', async (invocationCount, expectedResult) => {
-        const handlerInput = createIntentRequestHandlerInput({
-          name: 'AMAZON.CancelIntent',
-          confirmationStatus: 'NONE',
-        });
-        const routes: Router = {
-          requestType: 'IntentRequest',
-          intentName: ['AMAZON.StopIntent', 'AMAZON.CancelIntent'],
-          situation: {
-            invocationCount
-          },
-          handler: input => input.responseBuilder.getResponse(),
-        };
-        const mathcer = new RouteMatcher(handlerInput, routes);
-        await mathcer.match();
-        expect(mathcer.getMatchResult()).toEqual(expectedResult);
-      })
+        [{ gte: 0 }, true],
+        [{ gt: 0 }, false],
+        [{ eq: 0 }, true],
+        [{ lt: 0 }, false],
+        [{ lte: 0 }, true],
+        [{ gte: 5 }, false],
+        [{ gt: 5 }, false],
+        [{ eq: 5 }, false],
+        [{ lt: 5 }, true],
+        [{ lte: 5 }, true],
+      ])(
+        'should return true if the invocation Count situation is 0 (Operator; %p)',
+        async (invocationCount, expectedResult) => {
+          const handlerInput = createIntentRequestHandlerInput({
+            name: 'AMAZON.CancelIntent',
+            confirmationStatus: 'NONE',
+          });
+          const routes: Router = {
+            requestType: 'IntentRequest',
+            intentName: ['AMAZON.StopIntent', 'AMAZON.CancelIntent'],
+            situation: {
+              invocationCount,
+            },
+            handler: input => input.responseBuilder.getResponse(),
+          };
+          const mathcer = new RouteMatcher(handlerInput, routes);
+          await mathcer.match();
+          expect(mathcer.getMatchResult()).toEqual(expectedResult);
+        }
+      );
       it('should return true if the invocation Count situation is 0', async () => {
         const handlerInput = createIntentRequestHandlerInput({
           name: 'AMAZON.CancelIntent',
@@ -101,8 +104,8 @@ describe('RouteMatcher', () => {
           intentName: ['AMAZON.StopIntent', 'AMAZON.CancelIntent'],
           situation: {
             invocationCount: {
-              eq: 0
-            }
+              eq: 0,
+            },
           },
           handler: input => input.responseBuilder.getResponse(),
         };

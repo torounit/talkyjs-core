@@ -15,7 +15,7 @@ const setupClients = () => {
     .setPersistanceAdapter(new MockPersistenceAdapter())
     .create();
   const mgr = new UserActivityManager(handlerInput, defaultUserActivityConfig, {
-    dbType: 's3'
+    dbType: 's3',
   });
   return {
     handlerInput,

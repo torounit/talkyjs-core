@@ -28,7 +28,7 @@ import {
 } from '../handlers/index';
 import { SavePersistentAttributesInterceptor } from '../PersistentAttributesManager';
 import { SkillInvocationRecorder } from '../CRM';
-import { SkillConfig } from '../Config/Config'
+import { SkillConfig } from '../Config/Config';
 import { RequestSituationInterceptor } from '../Situation/Situation.interceptor';
 
 // let cachedSkill: CustomSkillBuilder
@@ -73,19 +73,19 @@ export class SkillFactory {
   protected readonly stage: TalkyJSSkillStage;
 
   public constructor(config?: TalkyJSSkillConfig) {
-    const configManager = SkillConfig.getInstance(config)
+    const configManager = SkillConfig.getInstance(config);
     const {
       stage,
       logLevel,
       skillId,
       errorHandler,
-    } = configManager.loadConfig()
-    this.stage = stage
-    this.logLevel = logLevel
+    } = configManager.loadConfig();
+    this.stage = stage;
+    this.logLevel = logLevel;
     if (skillId) this.skillBuilders.withSkillId(skillId);
     this._configureAPIClients(config);
     this._configureDBClients(config);
-    this._errorHandler = errorHandler
+    this._errorHandler = errorHandler;
   }
 
   /**
@@ -107,9 +107,7 @@ export class SkillFactory {
     this.addRequestHandlers(
       SessionEndedRequestHandler,
       SkillDisabledEventHandler
-    ).addRequestInterceptors(
-      RequestSituationInterceptor
-    );
+    ).addRequestInterceptors(RequestSituationInterceptor);
     withRepeatIntentHandler(this.skillBuilders);
     withErrorHandler(this.skillBuilders, this._errorHandler);
     this._addUsingDBHelpers();

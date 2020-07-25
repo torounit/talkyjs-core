@@ -30,32 +30,29 @@ export const shouldMatchIntentRequest = <T extends State = State>(
   return !!matchedIntentName;
 };
 
-type CompareResult = "true" | "false" | undefined 
-export const compareCountableSituation = (situation?: CountSituationOption, target: number = 0): CompareResult => {
+type CompareResult = 'true' | 'false' | undefined;
+export const compareCountableSituation = (
+  situation?: CountSituationOption,
+  target: number = 0
+): CompareResult => {
   let result: CompareResult;
   if (!situation) return result;
-  const {
-    gte,
-    gt,
-    eq,
-    lt,
-    lte,
-  } = situation
+  const { gte, gt, eq, lt, lte } = situation;
   if (eq !== undefined) {
-    result = eq === target ? "true" : "false"
-    return result
+    result = eq === target ? 'true' : 'false';
+    return result;
   }
 
   if (gte !== undefined) {
-    result = gte <= target ? "true" : "false"
+    result = gte <= target ? 'true' : 'false';
   } else if (gt !== undefined) {
-    result = gt < target ? "true" : "false"
+    result = gt < target ? 'true' : 'false';
   }
 
   if (lt !== undefined) {
-    result = lt > target ? "true" : "false"
+    result = lt > target ? 'true' : 'false';
   } else if (lte !== undefined) {
-    result = lte >= target ? "true" : "false"
+    result = lte >= target ? 'true' : 'false';
   }
-  return result
-}
+  return result;
+};

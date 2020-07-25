@@ -44,7 +44,7 @@ export class SkillConfig {
     if (!this._instance) {
       this._instance = new SkillConfig(config);
     }
-    if (config) this._instance.updateConfig(config)
+    if (config) this._instance.updateConfig(config);
     return this._instance;
   }
   public getDBType() {

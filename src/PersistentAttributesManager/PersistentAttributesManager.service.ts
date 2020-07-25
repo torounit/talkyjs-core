@@ -25,6 +25,7 @@ class DefaultLogger implements Logger {
 }
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
+let hasUpdated = false;
 /**
  * Simply wrapper of ask-sdk persistentAttributesManager
  */
@@ -33,7 +34,6 @@ export class PersistentAttributesManager<
 > {
   private static instance: PersistentAttributesManager;
   private readonly logger: Logger = new DefaultLogger();
-  private hasUpdated: boolean = false;
   protected defaultAttributes?: T = undefined;
 
   public static getInstance<
@@ -100,15 +100,15 @@ export class PersistentAttributesManager<
     } catch (e) {
       this.attributeManager.setPersistentAttributes(attributes);
     }
-    this.hasUpdated = true;
+    hasUpdated = true;
   }
 
   /**
    * Update attributes if the prop has been updated
    */
   public async save(): Promise<void> {
-    if (!this.hasUpdated) return;
+    if (!hasUpdated) return;
     await this.attributeManager.savePersistentAttributes();
-    this.hasUpdated = false;
+    hasUpdated = false;
   }
 }

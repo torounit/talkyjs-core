@@ -24,6 +24,9 @@ export class SituationService {
     this.userActivity = new UserActivityManager(input);
   }
 
+  /**
+   * Load latest situation status from DB and session
+   */
   public async loadRequestSituation(): Promise<void> {
     const session = this.getSituation();
     const persistent = await this.userActivity.getLastActivity();
@@ -35,11 +38,33 @@ export class SituationService {
     this.sessionSituation.updateRecord(situation);
   }
 
+  /**
+   * get loaded situation from session
+   */
   public getSituation(): Situation {
     return this.sessionSituation.loadRecord();
   }
+
+  /**
+   * Increase a conversation turn
+   */
   public increaseTurn() {
     this.sessionSituation.increaseTurn();
     return this;
+  }
+
+  /**
+   * update current state
+   * @param state
+   */
+  public updateState(state: string) {
+    this.sessionSituation.updateState(state);
+  }
+
+  /**
+   * get current state
+   */
+  public getState(): string | undefined {
+    return this.sessionSituation.getState();
   }
 }

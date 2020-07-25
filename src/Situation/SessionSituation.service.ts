@@ -7,6 +7,7 @@ export type SessionSituation = {
   turnCount: number;
   invocationNumber: number;
   lastInvocationTime?: number;
+  state?: string;
 };
 
 export class SessionSituationService extends SessionAttributesManager {
@@ -30,6 +31,40 @@ export class SessionSituationService extends SessionAttributesManager {
     this.updateRecord(record);
   }
 
+  /**
+   * update current state
+   * @param state
+   */
+  public updateState(state: string) {
+    this._updateRecord({
+      state,
+    });
+  }
+
+  /**
+   * get current state
+   */
+  public getState(): string | undefined {
+    const record = this.loadRecord();
+    return record.state;
+  }
+
+  /**
+   * update situation data in the session
+   * @param record
+   */
+  private _updateRecord(record: Partial<SessionSituation>) {
+    const current = this.loadRecord();
+    this.updateSessionAttributes<SessionSituation>(this.recordKey, {
+      ...current,
+      ...record,
+    });
+  }
+
+  /**
+   * update situation data in the session
+   * @param record
+   */
   public updateRecord(record: SessionSituation) {
     this.updateSessionAttributes<SessionSituation>(this.recordKey, record);
   }

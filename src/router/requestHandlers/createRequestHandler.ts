@@ -64,9 +64,7 @@ export class RequestHandlerFactory<T extends State = State> {
             situation.shouldEndSession
           );
         }
-        const result = route.handler(input, {
-          stateManager,
-        });
+        const result = route.handler(input);
         return result;
       },
     };

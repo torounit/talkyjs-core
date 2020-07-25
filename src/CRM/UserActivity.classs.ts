@@ -15,6 +15,7 @@ import { TalkyJSDBType } from 'framework';
 type ActivityAttributes = {
   invocationNumber: number;
   lastInvocationTime: number;
+  conversationStartAt: number;
 };
 export class UserActivityManager extends PersistentAttributesManager<
   ActivityAttributes
@@ -26,6 +27,7 @@ export class UserActivityManager extends PersistentAttributesManager<
   protected readonly defaultAttributes: ActivityAttributes = {
     invocationNumber: 0,
     lastInvocationTime: getUnixTime(),
+    conversationStartAt: getUnixTime(),
   };
   public constructor(
     {
@@ -88,8 +90,10 @@ export class UserActivityManager extends PersistentAttributesManager<
     if (!this.attributeManager) return;
     const activity = await this.getLastActivity();
     const data = activity || this.defaultAttributes;
+    const now = getUnixTime();
     data.invocationNumber = data.invocationNumber + 1;
-    data.lastInvocationTime = getUnixTime();
+    data.lastInvocationTime = now;
+    data.conversationStartAt = now;
 
     await this.updatePersistentAttributes(data);
 

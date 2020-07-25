@@ -1,5 +1,6 @@
 import { createIntentRequestHandlerInput } from '@ask-utils/test';
 import { RouteMatcher, Router } from '../../../';
+import { SituationService } from '../../../../Situation';
 
 describe('RouteMatcher', () => {
   describe('IntentRequestMatcher', () => {
@@ -17,6 +18,76 @@ describe('RouteMatcher', () => {
         const mathcer = new RouteMatcher(handlerInput, routes);
         await mathcer.match();
         expect(mathcer.getMatchResult()).toEqual(true);
+      });
+      it('should return false when given match intent request but custom situation return false', async () => {
+        const handlerInput = createIntentRequestHandlerInput({
+          name: 'HelloIntent',
+          confirmationStatus: 'NONE',
+        });
+        const routes: Router = {
+          requestType: 'IntentRequest',
+          intentName: 'HelloIntent',
+          situation: {
+            custom: () => false,
+          },
+          handler: input => input.responseBuilder.getResponse(),
+        };
+        const mathcer = new RouteMatcher(handlerInput, routes);
+        await mathcer.match();
+        expect(mathcer.getMatchResult()).toEqual(false);
+      });
+      it('should return false when given match intent request but state is unmatched', async () => {
+        const handlerInput = createIntentRequestHandlerInput({
+          name: 'HelloIntent',
+          confirmationStatus: 'NONE',
+        });
+        const routes: Router = {
+          requestType: 'IntentRequest',
+          intentName: 'HelloIntent',
+          situation: {
+            state: 'AskPermision',
+          },
+          handler: input => input.responseBuilder.getResponse(),
+        };
+        const mathcer = new RouteMatcher(handlerInput, routes);
+        await mathcer.match();
+        expect(mathcer.getMatchResult()).toEqual(false);
+      });
+      it('should return true when given match intent request but custom situation return true', async () => {
+        const handlerInput = createIntentRequestHandlerInput({
+          name: 'HelloIntent',
+          confirmationStatus: 'NONE',
+        });
+        const situationSerivce = new SituationService(handlerInput);
+        situationSerivce.updateState('AskPermission1');
+        const routes: Router = {
+          requestType: 'IntentRequest',
+          intentName: 'HelloIntent',
+          situation: {
+            state: 'AskPermission1',
+          },
+          handler: input => input.responseBuilder.getResponse(),
+        };
+        const mathcer = new RouteMatcher(handlerInput, routes);
+        await mathcer.match();
+        expect(mathcer.getMatchResult()).toEqual(true);
+      });
+      it('should return false when given un-matched intent request but custom situation return true', async () => {
+        const handlerInput = createIntentRequestHandlerInput({
+          name: 'HelloIntent',
+          confirmationStatus: 'NONE',
+        });
+        const routes: Router = {
+          requestType: 'IntentRequest',
+          intentName: 'ByeIntent',
+          situation: {
+            custom: () => true,
+          },
+          handler: input => input.responseBuilder.getResponse(),
+        };
+        const mathcer = new RouteMatcher(handlerInput, routes);
+        await mathcer.match();
+        expect(mathcer.getMatchResult()).toEqual(false);
       });
       it('should return false when given un-match intent request', async () => {
         const handlerInput = createIntentRequestHandlerInput({
@@ -47,6 +118,23 @@ describe('RouteMatcher', () => {
         const mathcer = new RouteMatcher(handlerInput, routes);
         await mathcer.match();
         expect(mathcer.getMatchResult()).toEqual(true);
+      });
+      it('should return false when given un-match intent request', async () => {
+        const handlerInput = createIntentRequestHandlerInput({
+          name: 'HelloIntent',
+          confirmationStatus: 'NONE',
+        });
+        const routes: Router = {
+          requestType: 'IntentRequest',
+          intentName: ['AMAZON.StopIntent', 'ByeIntent'],
+          situation: {
+            custom: () => true,
+          },
+          handler: input => input.responseBuilder.getResponse(),
+        };
+        const mathcer = new RouteMatcher(handlerInput, routes);
+        await mathcer.match();
+        expect(mathcer.getMatchResult()).toEqual(false);
       });
       it('should return false when given unmatch intent request', async () => {
         const handlerInput = createIntentRequestHandlerInput({

@@ -1,6 +1,5 @@
 import { HandlerInput } from 'ask-sdk-core';
 import { getRequest, isIntentRequestType } from '@ask-utils/core';
-import { StateManager, State } from '@ask-utils/situation';
 import { Request } from 'ask-sdk-model'; // 'ask-sdk-core/node_modules/ask-sdk-model'
 import { Router } from '../model';
 import {
@@ -10,16 +9,15 @@ import {
 } from './helpers';
 import { SituationService } from '../../Situation/Situation.service';
 
+type State = string;
 export class RouteMatcher<T extends State = State> {
   private readonly input: HandlerInput;
-  private readonly stateManager: StateManager<T>;
   private readonly request: Request;
   private readonly targetRoute: Router<T>;
   private canHandle: boolean = false;
   public constructor(input: HandlerInput, targetRoute: Router<T>) {
     this.input = input;
     this.request = getRequest(input);
-    this.stateManager = new StateManager<T>(input.attributesManager);
     this.targetRoute = targetRoute;
   }
 
@@ -43,22 +41,12 @@ export class RouteMatcher<T extends State = State> {
      * If the request is intent request should check the intent name
      */
     if (isIntentRequestType(this.request)) {
+      const shouldMatchIntent = shouldMatchIntentRequest(request, targetRoute);
+      if (!shouldMatchIntent) return;
       this.canHandle = shouldMatchIntentRequest(request, targetRoute);
     } else {
       // If the request is not Intent Request, set true.(We can overwrite by state and custom)
       this.canHandle = true;
-    }
-
-    /**
-     * Check the requested state
-     */
-    if (this.stateManager.hasState() && this.targetRoute.situation) {
-      const currentState = this.targetRoute.situation.state;
-      if (currentState) {
-        this.canHandle = this.stateManager.matchedCurrentState(
-          currentState.current as T
-        );
-      }
     }
 
     /**
@@ -69,7 +57,11 @@ export class RouteMatcher<T extends State = State> {
     if (this.targetRoute.situation) {
       const situationMgr = new SituationService(this.input);
       const situation = situationMgr.getSituation();
-      const { invocationCount, turnCount } = this.targetRoute.situation;
+      const currentState = situationMgr.getState();
+      const { invocationCount, turnCount, state } = this.targetRoute.situation;
+      if (state) {
+        this.canHandle = state === currentState;
+      }
       if (invocationCount) {
         const compareByInvocationCount = compareCountableSituation(
           invocationCount,

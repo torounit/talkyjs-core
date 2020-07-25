@@ -27,7 +27,6 @@ export abstract class SessionAttributesManager {
    */
   protected getSessionAttributes<Data = any>(key: string): Data | null {
     const data = this.attributesManager.getSessionAttributes();
-    console.log(data);
     if (!data || !Object.prototype.hasOwnProperty.call(data, this.prefix))
       return null;
     const record = data[this.prefix];

@@ -16,4 +16,5 @@ export interface UserActivityConfig {
 export interface UserActivity {
   invocationNumber: number;
   lastInvocationTime: number;
+  conversationStartAt: number;
 }

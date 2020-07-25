@@ -9,7 +9,7 @@ export type CountOperator = 'gt' | 'gte' | 'eq' | 'lte' | 'lt';
 export type CountSituationOption = {
   [operator in CountOperator]?: number;
 };
-export interface Situation {
+export interface RouteSituation {
   state?: SituationState;
   custom?: (input: HandlerInput) => boolean | Promise<boolean>;
   shouldEndSession?: boolean;
@@ -35,6 +35,6 @@ export type RouterHandler<T extends State = State> = (
 export interface Router<T extends State = State> {
   requestType: Request['type'];
   intentName?: string | string[];
-  situation?: Situation;
+  situation?: RouteSituation;
   handler: RouterHandler<T>;
 }

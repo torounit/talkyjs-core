@@ -10,7 +10,7 @@ import {
 import { DynamoDbPersistenceAdapter } from 'ask-sdk-dynamodb-persistence-adapter';
 import { S3PersistenceAdapter } from 'ask-sdk-s3-persistence-adapter';
 import { TLogLevelName } from 'tslog';
-import { Router, RequestHandlerFactory } from '@ask-utils/router';
+import { Router, RequestHandlerFactory } from '../router';
 import { LoggerService } from '../Logger';
 import {
   TalkyJSSkillConfig,

@@ -9,9 +9,12 @@ export const SkillInvocationRecorder: RequestInterceptor = {
 };
 
 /**
- * リクエスト時に起動数とターン数を記録する。
- * ・起動数はDBにはいる（実装済み）
- * ・ターン数はセッションにいれておく
- * 　・イベント系とかのリクエストは除外するようにする
- * 　・あとAttributesManagerがない時も除外
+ * @todo
+ * - turn1でSTOP / Cancel / SessionEndedを実行されたら記録する（直帰）
+ * - ISP系のリクエストがあったら記録する
+ *   - ISP興味持ったけど、購入しなかった（カゴ落ち）
+ *   - 購入まで行った（CV）
+ *   - キャンセルした(churn)
+ * - 権限許可した・しなかったの記録（これもCV?）
+ * - GAかHubSpotにputEventできるAdapterでも作ってやる？
  */

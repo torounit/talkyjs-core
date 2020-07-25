@@ -18,6 +18,40 @@ describe('RouteMatcher', () => {
         await mathcer.match();
         expect(mathcer.getMatchResult()).toEqual(true);
       });
+      it('should return false when given match intent request but custom situation return false', async () => {
+        const handlerInput = createIntentRequestHandlerInput({
+          name: 'HelloIntent',
+          confirmationStatus: 'NONE',
+        });
+        const routes: Router = {
+          requestType: 'IntentRequest',
+          intentName: 'HelloIntent',
+          situation: {
+            custom: () => false,
+          },
+          handler: input => input.responseBuilder.getResponse(),
+        };
+        const mathcer = new RouteMatcher(handlerInput, routes);
+        await mathcer.match();
+        expect(mathcer.getMatchResult()).toEqual(false);
+      });
+      it('should return false when given un-matched intent request but custom situation return true', async () => {
+        const handlerInput = createIntentRequestHandlerInput({
+          name: 'HelloIntent',
+          confirmationStatus: 'NONE',
+        });
+        const routes: Router = {
+          requestType: 'IntentRequest',
+          intentName: 'ByeIntent',
+          situation: {
+            custom: () => true,
+          },
+          handler: input => input.responseBuilder.getResponse(),
+        };
+        const mathcer = new RouteMatcher(handlerInput, routes);
+        await mathcer.match();
+        expect(mathcer.getMatchResult()).toEqual(false);
+      });
       it('should return false when given un-match intent request', async () => {
         const handlerInput = createIntentRequestHandlerInput({
           name: 'ByeIntent',

@@ -34,7 +34,7 @@ export class PersistentAttributesManager<
   private static instance: PersistentAttributesManager;
   private readonly logger: Logger = new DefaultLogger();
   private hasUpdated: boolean = false;
-  protected readonly defaultAttributes?: T = undefined;
+  protected defaultAttributes?: T = undefined;
 
   public static getInstance<
     T extends PersistentAttributes = PersistentAttributes

@@ -28,6 +28,8 @@ import {
 } from '../handlers/index';
 import { SavePersistentAttributesInterceptor } from '../PersistentAttributesManager';
 import { SkillInvocationRecorder } from '../CRM';
+import { SkillConfig } from '../Config/Config';
+import { RequestSituationInterceptor } from '../Situation/Situation.interceptor';
 
 // let cachedSkill: CustomSkillBuilder
 
@@ -71,18 +73,19 @@ export class SkillFactory {
   protected readonly stage: TalkyJSSkillStage;
 
   public constructor(config?: TalkyJSSkillConfig) {
-    this.stage = config && config.stage ? config.stage : 'development';
-    this.logLevel = config && config.logLevel ? config.logLevel : 'info';
-    const skillId = config && config.skillId ? config.skillId : null;
+    const configManager = SkillConfig.getInstance(config);
+    const {
+      stage,
+      logLevel,
+      skillId,
+      errorHandler,
+    } = configManager.loadConfig();
+    this.stage = stage;
+    this.logLevel = logLevel;
     if (skillId) this.skillBuilders.withSkillId(skillId);
     this._configureAPIClients(config);
     this._configureDBClients(config);
-    this._errorHandler =
-      config && config.errorHandler
-        ? config.errorHandler
-        : {
-            usePreset: true,
-          };
+    this._errorHandler = errorHandler;
   }
 
   /**
@@ -104,7 +107,7 @@ export class SkillFactory {
     this.addRequestHandlers(
       SessionEndedRequestHandler,
       SkillDisabledEventHandler
-    );
+    ).addRequestInterceptors(RequestSituationInterceptor);
     withRepeatIntentHandler(this.skillBuilders);
     withErrorHandler(this.skillBuilders, this._errorHandler);
     this._addUsingDBHelpers();
@@ -156,6 +159,7 @@ export class SkillFactory {
   private _configureDBClients(config?: TalkyJSSkillConfig): this {
     if (!config) return this;
     const { database } = config;
+    // ここでDBタイプをRequestAttributesに保存しておく
     if (!database || database.type === 'none') return this;
     this.dbType = database.type;
     if (database.type === 'dynamodb') {

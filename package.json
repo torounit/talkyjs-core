@@ -34,9 +34,15 @@
   "peerDependencies": {},
   "husky": {
     "hooks": {
-      "pre-commit": "tsdx lint --fix",
+      "pre-commit": "lint-staged",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "tsdx lint --fix",
+      "git add"
+    ]
   },
   "prettier": {
     "printWidth": 80,
@@ -51,6 +57,7 @@
     "@ask-utils/test": "3.9.0",
     "@commitlint/cli": "9.0.1",
     "@commitlint/config-conventional": "9.0.1",
+    "lint-staged": "10.2.11",
     "husky": "4.2.5",
     "tsdx": "0.13.2",
     "tslib": "2.0.0",

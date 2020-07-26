@@ -1,5 +1,5 @@
 {
-  "version": "0.3.4",
+  "version": "1.0.0",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -57,16 +57,14 @@
     "@ask-utils/test": "3.11.0",
     "@commitlint/cli": "9.1.1",
     "@commitlint/config-conventional": "9.1.1",
-    "lint-staged": "10.2.11",
     "husky": "4.2.5",
+    "lint-staged": "10.2.11",
     "tsdx": "0.13.2",
     "tslib": "2.0.0",
     "typescript": "3.9.7"
   },
   "dependencies": {
     "@ask-utils/core": "^3.9.0",
-    "@ask-utils/router": "^3.10.0",
-    "@ask-utils/situation": "^3.11.0",
     "@sentry/node": "^5.18.0",
     "ask-sdk-core": "^2.8.0",
     "ask-sdk-dynamodb-persistence-adapter": "^2.8.0",

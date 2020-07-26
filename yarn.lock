@@ -14,31 +14,6 @@
     aws-sdk "^2.492.0"
     tslib "^2.0.0"
 
-"@ask-utils/router@^3.10.0":
-  version "3.11.0"
-  resolved "https://registry.yarnpkg.com/@ask-utils/router/-/router-3.11.0.tgz#ca2d1118dee5f70581cb6482f033ce06360b8238"
-  integrity sha512-FcVOWFlv/J/MexVuUu4VTp3lf1cPhnOMjKxdk3DU39ndOzpF9TAoReQN+oOQYQFnQMiS2mpLmTFjWt1hoR1urA==
-  dependencies:
-    "@ask-utils/core" "^3.11.0"
-    "@ask-utils/situation" "^3.11.0"
-    ask-sdk "^2.8.0"
-    ask-sdk-core "^2.8.0"
-    ask-sdk-model "^1.28.0"
-    ask-sdk-runtime "^2.8.0"
-    tslib "^2.0.0"
-
-"@ask-utils/situation@^3.11.0":
-  version "3.11.0"
-  resolved "https://registry.yarnpkg.com/@ask-utils/situation/-/situation-3.11.0.tgz#1974926d5a4527428bcfb6faf31b3a6540bfb559"
-  integrity sha512-JLGH/G57b3hzfh1Z7keXTpPQf/oE+fjsBT7rqtK87MFFQNCao/4xhm2/bGxUcX7iLsZ5y0ZDlFchM68QbuR01Q==
-  dependencies:
-    "@ask-utils/core" "^3.11.0"
-    ask-sdk "^2.8.0"
-    ask-sdk-core "^2.8.0"
-    ask-sdk-model "^1.28.0"
-    ask-sdk-runtime "^2.8.0"
-    tslib "^2.0.0"
-
 "@ask-utils/test@3.11.0":
   version "3.11.0"
   resolved "https://registry.yarnpkg.com/@ask-utils/test/-/test-3.11.0.tgz#4aeb7ea4ff2a98db33d7fb8a73daa1301f764dbb"

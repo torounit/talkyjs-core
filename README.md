@@ -41,6 +41,10 @@ const config: TalkyJSSkillConfig = {
         tableName: 'example-bucket-name', // [Optional] Database table name
         s3PathPrefix: 'path-prefix'       // [Optional] [Only S3] S3 path prefix
     },
+    apiClient: {                            // SMAPI and Alexa API Client configuration
+        useDefault: true,                   // Use DefaultApiClient
+        // client: new DefaultApiClient()   // If you have own ApiClient, put here
+    },
     skillId: 'ask.your.skill.id',         // [Optional] Skill ID
     errorHandler: {                       // [Optional] error handler configurations
         usePreset: true,                  // [Optional] Use preset error handler

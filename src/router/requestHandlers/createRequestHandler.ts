@@ -1,21 +1,15 @@
-import { StateManager, State, InitialState } from '@ask-utils/situation';
 import { RequestHandler } from 'ask-sdk';
 import { Response } from 'ask-sdk-model'; // 'ask-sdk-core/node_modules/ask-sdk-model'
 import { RouteMatcher } from '../matcher';
 import { Router, RouteSituation } from '../model';
+
+type State = string;
 
 const getSituation = <T extends State = State>(
   route: Router<T>
 ): RouteSituation | undefined => {
   const { situation } = route;
   return situation || undefined;
-};
-const getStateFromRoute = <T extends State = State>(
-  route: Router<T>
-): InitialState<T> | undefined => {
-  const situation = getSituation(route);
-  if (!situation || !situation.state) return undefined;
-  return situation.state as InitialState<T>;
 };
 
 export class RequestHandlerFactory<T extends State = State> {
@@ -37,7 +31,6 @@ export class RequestHandlerFactory<T extends State = State> {
   public static create<T extends State = State>(
     route: Router<T>
   ): RequestHandler {
-    const expectedState = getStateFromRoute(route);
     return {
       async canHandle(handlerInput): Promise<boolean> {
         const matcher = new RouteMatcher<T>(handlerInput, route);
@@ -45,19 +38,9 @@ export class RequestHandlerFactory<T extends State = State> {
         return matcher.getMatchResult();
       },
       handle: (input): Response | Promise<Response> => {
-        const stateManager = new StateManager<T>(
-          input.attributesManager,
-          expectedState
-        );
         /**
          * Auto state updator
          */
-        if (expectedState) {
-          const { current, next } = expectedState;
-          if (current && next) {
-            stateManager.setState(next, [], [current]);
-          }
-        }
         const situation = getSituation(route);
         if (situation && situation.shouldEndSession !== undefined) {
           input.responseBuilder.withShouldEndSession(

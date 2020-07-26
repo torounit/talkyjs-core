@@ -65,7 +65,6 @@
   },
   "dependencies": {
     "@ask-utils/core": "^3.9.0",
-    "@ask-utils/situation": "^3.11.0",
     "@sentry/node": "^5.18.0",
     "ask-sdk-core": "^2.8.0",
     "ask-sdk-dynamodb-persistence-adapter": "^2.8.0",

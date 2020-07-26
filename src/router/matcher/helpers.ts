@@ -3,7 +3,7 @@ import { Request } from 'ask-sdk-model'; // 'ask-sdk-core/node_modules/ask-sdk-m
 import { Router } from '../model';
 import { CountSituationOption } from '../model';
 
-type State = string
+type State = string;
 
 export const shouldMatchRequestType = <T extends State = State>(
   request: Request,
